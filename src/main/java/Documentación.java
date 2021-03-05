@@ -1,4 +1,4 @@
-public class Documentación {
+public class Documentación extends Resultado{
     String formato;
     int paginas;
     double espacioDisco;
