@@ -3,4 +3,6 @@ public class Programa extends Resultado{
     int lineas;
     int modulos;
 
+    String tipo() {return "Programa";}
+
 }

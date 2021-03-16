@@ -3,4 +3,6 @@ public class Documentación extends Resultado{
     int paginas;
     double espacioDisco;
 
+    String tipo() {return "Documentación";}
+
 }

@@ -3,4 +3,6 @@ public class Biblioteca extends Resultado{
     int libros;
     int socios;
 
+    String tipo() {return "Biblioteca";}
+
 }

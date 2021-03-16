@@ -30,7 +30,7 @@ public class Proyecto {
 
     public String listarTareas () {
         StringBuilder lista = new StringBuilder();
-        lista.append("Las tares del proyecto ").append(nombreProyecto).append(" son: \n");
+        lista.append("Las tareas del proyecto ").append(nombreProyecto).append(" son: \n");
         for (Tarea tarea : tareas) {
             lista.append(tarea.toString());
         }

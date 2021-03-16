@@ -53,6 +53,7 @@ public class Tarea {
             cadena.append("\tLa tarea está finalizada\n");
         else
             cadena.append("\tLa tarea no está finalizada\n");
+        cadena.append("\tResultado: ").append(resultado.tipo()).append("\n");
         return cadena.toString();
     }
 }
