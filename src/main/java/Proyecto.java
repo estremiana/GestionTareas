@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class Proyecto {
+    Scanner teclado = new Scanner(System.in);
     List<Tarea> tareas;
     List<Persona> personas;
     String nombreProyecto;
@@ -46,12 +49,12 @@ public class Proyecto {
     }
 
     public void añadirPersonaATarea (String correo, String tituloTarea) {
-        Tarea tarea = identificarTarea(tituloTarea);
+        Tarea tarea = identificarTarea(tituloTarea).get();
         tarea.añadirPersona(identificarPersona(correo));
     }
 
-    public void eliminarPersonaDeTarea (String correo, String tituloTarea) {
-        Tarea tarea = identificarTarea(tituloTarea);
+    public void eliminarPersonaDeTareaOptional (String correo, String tituloTarea) {
+        Optional<Tarea> tarea = identificarTarea(tituloTarea);
         tarea.eliminarPersona(identificarPersona(correo));
     }
 
@@ -78,20 +81,29 @@ public class Proyecto {
         };
     }
 
-    private Persona identificarPersona(String correo) {
+    private Optional<Persona> identificarPersona(String correo) {
         for (Persona persona : personas) {
             if (correo.equals(persona.correoElectronico)) {
-                return persona;
+                return Optional.of(persona);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
-    private Tarea identificarTarea (String tituloTarea) {
+    private Optional<Tarea> identificarTarea (String tituloTarea) {
         for (Tarea tarea : tareas) {
             if (tarea.titulo.equals(tituloTarea))
-                return tarea;
+                return Optional.of(tarea);
         }
-        return null;
+        return Optional.empty();
     }
+
+    public String getTituloTarea() {
+        String titulo;
+        System.out.println("Introduce un título para la tarea");
+        titulo = teclado.nextLine();
+        return titulo;
+    }
+
+
 }

@@ -13,6 +13,13 @@ public class Tarea {
     Resultado resultado;
     List<String> listaEtiquetas;
 
+    public Tarea(){
+        this.fechaCreacion = new Date();
+        this.finalizado = false;
+    }
+
+
+
     public Tarea(String titulo, String descripcion, List<Persona> listaPersonasAsignadas, Persona responsable, int prioridad, Resultado resultado, List<String> listaEtiquetas) {
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -56,4 +63,5 @@ public class Tarea {
         cadena.append("\tResultado: ").append(resultado.tipo()).append("\n");
         return cadena.toString();
     }
+
 }
