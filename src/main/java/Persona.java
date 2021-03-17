@@ -6,6 +6,10 @@ public class Persona {
     String correoElectronico;
     List<Tarea> listaTareasResponsable;
 
+    public Persona () {
+
+    }
+
     public Persona (String  nombre, String correo){
         this.nombre = nombre;
         this.correoElectronico = correo;

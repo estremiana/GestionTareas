@@ -40,7 +40,8 @@ public class Tarea {
     }
 
     public void añadirPersona(Persona persona) {
-        listaPersonasAsignadas.add(persona);
+        if (!listaPersonasAsignadas.contains(persona))
+            listaPersonasAsignadas.add(persona);
     }
 
     public void eliminarPersona(Persona persona) {

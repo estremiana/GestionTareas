@@ -1,7 +1,6 @@
-import java.util.ArrayList;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
 
 public class Proyecto {
     Scanner teclado = new Scanner(System.in);
@@ -19,17 +18,22 @@ public class Proyecto {
         this.personas.add(new Persona(nombre, correo));
     }
 
-    public void darDeAltaTarea (String titulo, String descripcion, String correoPersonaResponsable, List<String> correosPersonasAsignadas, String cadenaPrioridad, String tipo, List<String> etiquetas) {
-        Persona responsable = identificarPersona(correoPersonaResponsable);
+    public void darDeAltaTarea () {
+        String titulo = entradaTituloTarea();
+        String descripcion = entradaDescripcionTarea();
+        Persona responsable = identificarPersonaOpcional(entradaCorreoPersonaResponsableTarea()).orElse(new Persona());
         List<Persona> personasAsignadas = new ArrayList<>();
-        for (String correo : correosPersonasAsignadas)
-            personasAsignadas.add(identificarPersona(correo));
-        int numeroPrioridad = identificarPrioridad(cadenaPrioridad);
-        Resultado resultado = identificarResultado(tipo);
+        for (String correo : entradaCorreosPersonasAsignadasTarea())
+            personasAsignadas.add(identificarPersonaOpcional(correo).orElse(new Persona()));
+        int numeroPrioridad = entradaPrioridad();
+        Resultado resultado = entradaResultado();
+        List<String> etiquetas = entradaEtiquetasTarea();
         Tarea nuevaTarea = new Tarea(titulo, descripcion, personasAsignadas, responsable, numeroPrioridad, resultado, etiquetas);
         tareas.add(nuevaTarea);
         responsable.asignarTarea(nuevaTarea);
     }
+
+
 
     public String listarTareas () {
         StringBuilder lista = new StringBuilder();
@@ -49,39 +53,56 @@ public class Proyecto {
     }
 
     public void añadirPersonaATarea (String correo, String tituloTarea) {
-        Tarea tarea = identificarTarea(tituloTarea).get();
-        tarea.añadirPersona(identificarPersona(correo));
+        Optional<Tarea> tarea = identificarTarea(tituloTarea);
+        Optional<Persona> persona = identificarPersonaOpcional(correo);
+        tarea.ifPresent(tarea1 -> persona.ifPresent(tarea1::añadirPersona));
     }
 
     public void eliminarPersonaDeTareaOptional (String correo, String tituloTarea) {
         Optional<Tarea> tarea = identificarTarea(tituloTarea);
-        tarea.eliminarPersona(identificarPersona(correo));
+        Optional<Persona> persona = identificarPersonaOpcional(correo);
+        tarea.ifPresent(tarea1 -> persona.ifPresent(tarea1::eliminarPersona));
+
     }
 
     public void marcarTareaComoFinalizada(String tituloTarea) {
-        identificarTarea(tituloTarea).finalizar();
+        identificarTarea(tituloTarea).ifPresent(Tarea::finalizar);
     }
 
-    private Resultado identificarResultado(String tipo) {
+    private Resultado identificarResultado(MenuResultado tipo) {
         return switch (tipo) {
-            case "Biblioteca" -> new Biblioteca();
-            case "Documentación" -> new Documentación();
-            case "Página web" -> new PaginaWeb();
-            case "Programa" -> new Programa();
-            default -> null;
+            case BIBLIOTECA -> crearBiblioteca();
+            case DOCUMENTACION -> crearDocumentación();
+            case PAGINAWEB -> crearPaginaWeb();
+            case PROGRAMA -> crearPrograma();
         };
     }
 
-    private int identificarPrioridad(String prioridad) {
+    private Resultado crearPrograma() {
+        return new Programa();
+    }
+
+    private Resultado crearPaginaWeb() {
+        return new PaginaWeb();
+    }
+
+    private Resultado crearDocumentación() {
+        return new Documentación();
+    }
+
+    private Resultado crearBiblioteca() {
+        return new Biblioteca();
+    }
+
+    private int identificarPrioridad(MenuPrioridad prioridad) {
         return switch (prioridad) {
-            case "Alta" -> 2;
-            case "Media" -> 1;
-            case "Baja" -> 0;
-            default ->1;
+            case ALTA -> 2;
+            case MEDIA -> 1;
+            case BAJA -> 0;
         };
     }
 
-    private Optional<Persona> identificarPersona(String correo) {
+    private Optional<Persona> identificarPersonaOpcional(String correo) {
         for (Persona persona : personas) {
             if (correo.equals(persona.correoElectronico)) {
                 return Optional.of(persona);
@@ -98,11 +119,59 @@ public class Proyecto {
         return Optional.empty();
     }
 
-    public String getTituloTarea() {
-        String titulo;
-        System.out.println("Introduce un título para la tarea");
-        titulo = teclado.nextLine();
-        return titulo;
+    private String entradaTituloTarea() {
+        System.out.println("Introduce un título para la tarea:");
+        return teclado.nextLine();
+    }
+
+    private String entradaDescripcionTarea() {
+        System.out.println("Introduce una descripción para la tarea:");
+        return teclado.nextLine();
+    }
+
+    private String entradaCorreoPersonaResponsableTarea() {
+        System.out.println("Introduce el correo del responsable de la tarea:");
+        return teclado.nextLine();
+    }
+
+    private List<String> entradaCorreosPersonasAsignadasTarea() {
+        System.out.println("Introduce el correo de las personas asignadas a la tarea (presiona enter para finalizar):");
+        List<String> lista = new ArrayList<>();
+        String linea = teclado.nextLine();
+        while (linea.length() != 0) {
+            lista.add(linea);
+            linea = teclado.nextLine();
+        }
+        return lista;
+    }
+
+    private List<String> entradaEtiquetasTarea() {
+        System.out.println("Introduce las etiquetas de la tarea (presiona enter para finalizar):");
+        List<String> lista = new ArrayList<>();
+        String linea = teclado.nextLine();
+        while (linea.length() != 0) {
+            lista.add(linea);
+            linea = teclado.nextLine();
+        }
+        return lista;
+    }
+
+    private Resultado entradaResultado() {
+        MenuResultado opcion;
+        System.out.println(MenuResultado.getMenu());
+        System.out.println("Introduce una opción para el resultado de la tarea:");
+        int intOpcion = teclado.nextInt();
+        opcion = MenuResultado.getOpcion(intOpcion);
+        return identificarResultado(opcion);
+    }
+
+    private int entradaPrioridad() {
+        MenuPrioridad opcion;
+        System.out.println(MenuPrioridad.getMenu());
+        System.out.println("Introduce una opción para la prioridad de la tarea:");
+        int intOpcion = teclado.nextInt();
+        opcion = MenuPrioridad.getOpcion(intOpcion);
+        return identificarPrioridad(opcion);
     }
 
 

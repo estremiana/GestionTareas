@@ -1,22 +1,21 @@
-public enum Menu{
-    BIBLIOTECA("Resultado de la tarea : Biblioteca"),
-    PAGINAWEB("Resultado de la tarea : Página web"),
-    PROGRAMA("Resultado de la tarea : Programa"),
-    DOCUMENTACION("Resultado de la tarea : Documentación");
+public enum MenuPrioridad {
+    ALTA("Prioridad alta"),
+    MEDIA("Prioridad media"),
+    BAJA("Prioridad baja");
 
     private String descripcion;
 
-    Menu(String descripcion){
+    MenuPrioridad(String descripcion){
         this.descripcion = descripcion;
     }
 
-    public static Menu getOpcion (int posicion){
+    public static MenuPrioridad getOpcion (int posicion){
         return  values()[posicion];
     }
 
     public static String getMenu() {
         StringBuilder sb = new StringBuilder();
-        for(Menu opcion: Menu.values()) {
+        for(MenuPrioridad opcion: MenuPrioridad.values()) {
             sb.append(opcion.ordinal());
             sb.append(".- ");
             sb.append(opcion.descripcion);

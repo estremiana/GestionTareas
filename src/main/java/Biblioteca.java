@@ -3,6 +3,14 @@ public class Biblioteca extends Resultado{
     int libros;
     int socios;
 
-    String tipo() {return "Biblioteca";}
+    public Biblioteca() { }
 
+    public Biblioteca(String identificador, int horasInvertidas, boolean interno, String nombre, int libros, int socios) {
+        super(identificador, horasInvertidas, interno);
+        this.nombre = nombre;
+        this.libros = libros;
+        this.socios = socios;
+    }
+
+    String tipo() {return "Biblioteca";}
 }
