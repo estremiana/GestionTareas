@@ -1,3 +1,5 @@
+import Resultado.Resultado;
+
 import java.util.Date;
 import java.util.List;
 
@@ -61,7 +63,7 @@ public class Tarea {
             cadena.append("\tLa tarea está finalizada\n");
         else
             cadena.append("\tLa tarea no está finalizada\n");
-        cadena.append("\tResultado: ").append(resultado.tipo()).append("\n");
+        cadena.append("\tResultado.Resultado: ").append(resultado.tipo()).append("\n");
         return cadena.toString();
     }
 

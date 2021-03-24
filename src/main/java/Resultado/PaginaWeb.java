@@ -1,4 +1,6 @@
-public class PaginaWeb extends Resultado{
+package Resultado;
+
+public class PaginaWeb extends Resultado {
     String tipo;
     String lenguaje;
     String backEnd;
@@ -12,5 +14,6 @@ public class PaginaWeb extends Resultado{
         this.backEnd = backEnd;
     }
 
-    String tipo() {return "Página Web";}
+    @Override
+    public String tipo() {return "Página Web";}
 }

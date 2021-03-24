@@ -1,3 +1,5 @@
+package Menú;
+
 public enum MenuPrioridad {
     ALTA("Prioridad alta"),
     MEDIA("Prioridad media"),

@@ -1,3 +1,5 @@
+package Menú;
+
 public enum MenuResultado {
     BIBLIOTECA("Resultado de la tarea : Biblioteca"),
     PAGINAWEB("Resultado de la tarea : Página web"),

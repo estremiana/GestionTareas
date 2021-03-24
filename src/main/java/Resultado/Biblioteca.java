@@ -1,4 +1,6 @@
-public class Biblioteca extends Resultado{
+package Resultado;
+
+public class Biblioteca extends Resultado {
     String nombre;
     int libros;
     int socios;
@@ -12,5 +14,6 @@ public class Biblioteca extends Resultado{
         this.socios = socios;
     }
 
-    String tipo() {return "Biblioteca";}
+    @Override
+    public String tipo() {return "Biblioteca";}
 }

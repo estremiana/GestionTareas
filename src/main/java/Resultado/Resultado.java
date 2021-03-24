@@ -1,11 +1,11 @@
+package Resultado;
+
 public abstract class Resultado {
     String identificador;
     int horasInvertidas;
     boolean interno;
 
-    public Resultado() {
-
-    }
+    public Resultado() { }
 
     public Resultado(String identificador, int horasInvertidas, boolean interno) {
         this.identificador = identificador;
@@ -13,5 +13,5 @@ public abstract class Resultado {
         this.interno = interno;
     }
 
-    abstract String tipo();
+    public abstract String tipo();
 }

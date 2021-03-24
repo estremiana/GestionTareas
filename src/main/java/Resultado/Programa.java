@@ -1,4 +1,6 @@
-public class Programa extends Resultado{
+package Resultado;
+
+public class Programa extends Resultado {
     String lenguaje;
     int lineas;
     int modulos;
@@ -12,6 +14,7 @@ public class Programa extends Resultado{
         this.modulos = modulos;
     }
 
-    String tipo() {return "Programa";}
+    @Override
+    public String tipo() {return "Programa";}
 
 }
