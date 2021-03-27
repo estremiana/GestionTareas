@@ -88,4 +88,11 @@ public class GestionES {
         return teclado.nextLine();
     }
 
+    public void imprimirLista(String lista){
+        System.out.println(lista);
+    }
+
+    public void finalizar() {
+        System.out.println("Adiós");
+    }
 }

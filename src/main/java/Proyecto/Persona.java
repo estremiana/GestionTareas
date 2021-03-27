@@ -9,7 +9,6 @@ public class Persona {
     List<Tarea> listaTareasResponsable;
 
     public Persona () {
-
     }
 
     public Persona (String  nombre, String correo){

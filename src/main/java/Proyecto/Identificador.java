@@ -10,8 +10,13 @@ import java.util.Optional;
 
 public class Identificador {
     public Identificador () { }
+    private Proyecto proyecto;
 
-     GestionES entrada = new GestionES();
+    GestionES entrada = new GestionES();
+
+    public Identificador (Proyecto proyecto) {
+        this.proyecto = proyecto;
+    }
 
     public int prioridad(MenuPrioridad prioridad) {
         return switch (prioridad) {
@@ -38,23 +43,22 @@ public class Identificador {
         };
     }
 
-    public void herramienta (Proyecto proyecto) {
-        MenuHerramientas accion = MenuHerramientas.getOpcion(entrada.indiceHerramienta());
-        switch (accion) {
-            case DAR_DE_ALTA_TRABAJADOR -> proyecto.darDeAltaTrabajador();
-            case DAR_DE_ALTA_TAREA -> proyecto.darDeAltaTarea();
-            case LISTAR_TAREAS -> proyecto.listarTareas();
-            case LISTAR_PERSONAS_ASIGNADAS -> proyecto.listarPersonasAsignadasProyecto();
-            case ANADIR_PERSONA_A_TAREA -> proyecto.anadirPersonaATareaOptional();
-            case ELIMINAR_PERSONA_TAREA -> proyecto.eliminarPersonaDeTareaOptional();
-            case MARCAR_TAREA_FINALIZADA -> proyecto.marcarTareaComoFinalizada();
-            case SALIR -> {
-                return;
-            }
-        }
-        proyecto.elegirHerrramienta();
-
-    }
+    //public void herramienta () {
+    //    MenuHerramientas accion = MenuHerramientas.getOpcion(entrada.indiceHerramienta());
+    //    switch (accion) {
+    //        case DAR_DE_ALTA_TRABAJADOR -> proyecto.darDeAltaTrabajador();
+    //        case DAR_DE_ALTA_TAREA -> proyecto.darDeAltaTarea();
+    //        case LISTAR_TAREAS -> proyecto.listarTareas();
+    //        case LISTAR_PERSONAS_ASIGNADAS -> proyecto.listarPersonasAsignadasProyecto();
+    //        case ANADIR_PERSONA_A_TAREA -> proyecto.anadirPersonaATareaOptional();
+    //        case ELIMINAR_PERSONA_TAREA -> proyecto.eliminarPersonaDeTareaOptional();
+    //        case MARCAR_TAREA_FINALIZADA -> proyecto.marcarTareaComoFinalizada();
+    //        case SALIR -> {
+    //            return;
+    //        }
+    //    }
+    //    proyecto.elegirHerrramienta();
+    //}
 
 
 
