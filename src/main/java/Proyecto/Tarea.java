@@ -1,3 +1,9 @@
+package Proyecto;
+
+import Proyecto.Menu.MenuPrioridad;
+import Proyecto.Resultado.Resultado;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -6,17 +12,24 @@ public class Tarea {
     String descripcion;
     List<Persona> listaPersonasAsignadas;
     Persona responsable;
-    int prioridad;
+    MenuPrioridad prioridad;
     Date fechaCreacion;
     Date fechaFinalizacion;
     boolean finalizado;
     Resultado resultado;
     List<String> listaEtiquetas;
 
-    public Tarea(String titulo, String descripcion, List<Persona> listaPersonasAsignadas, Persona responsable, int prioridad, Resultado resultado, List<String> listaEtiquetas) {
+    public Tarea(){
+        this.fechaCreacion = new Date();
+        this.finalizado = false;
+    }
+
+
+
+    public Tarea(String titulo, String descripcion, Persona responsable, MenuPrioridad prioridad, Resultado resultado, List<String> listaEtiquetas) {
         this.titulo = titulo;
         this.descripcion = descripcion;
-        this.listaPersonasAsignadas = listaPersonasAsignadas;
+        this.listaPersonasAsignadas = new ArrayList<>();
         this.responsable = responsable;
         this.prioridad = prioridad;
         this.fechaCreacion = new Date();
@@ -33,7 +46,8 @@ public class Tarea {
     }
 
     public void añadirPersona(Persona persona) {
-        listaPersonasAsignadas.add(persona);
+        if (!listaPersonasAsignadas.contains(persona))
+            listaPersonasAsignadas.add(persona);
     }
 
     public void eliminarPersona(Persona persona) {
@@ -56,4 +70,5 @@ public class Tarea {
         cadena.append("\tResultado: ").append(resultado.tipo()).append("\n");
         return cadena.toString();
     }
+
 }
