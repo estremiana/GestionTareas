@@ -20,21 +20,19 @@ public class Proyecto {
         this.tareas = new ArrayList<>();
     }
 
-    public void elegirHerrramienta () {
-        identificar.herramienta(this);
-    }
+
 
     public void darDeAltaTrabajador (String nombre, String correo) {
         this.personas.add(new Persona(nombre, correo));
     }
 
     public void darDeAltaTarea (String titulo, String descripcion, String correoPersonaResponsable, int intPrioridad, MenuResultado tipo, List<String> etiquetas) {
-        Persona responsable = identificar.personaOpcional(correoPersonaResponsable, personas).orElse(new Persona());
+        Optional<Persona> responsable = identificar.personaOpcional(correoPersonaResponsable, personas);
         MenuPrioridad prioridad = MenuPrioridad.getOpcion(intPrioridad);
         Resultado resultado = identificar.resultado(tipo);
         Tarea nuevaTarea = new Tarea(titulo, descripcion, responsable, prioridad, resultado, etiquetas);
         tareas.add(nuevaTarea);
-        responsable.asignarTarea(nuevaTarea);
+        responsable.ifPresent(x -> x.asignarTarea(nuevaTarea));
     }
 
     public String listarTareas () {
@@ -72,10 +70,14 @@ public class Proyecto {
 
 
 
+
     //GETTERS
 
     public List<Persona> getTrabajadores() {
         return personas;
+    }
+    public List<Tarea> getTareas() {
+        return tareas;
     }
 
 

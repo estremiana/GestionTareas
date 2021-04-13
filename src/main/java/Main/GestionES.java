@@ -1,4 +1,4 @@
-package Proyecto;
+package Main;
 
 import Proyecto.Menu.MenuHerramientas;
 import Proyecto.Menu.MenuPrioridad;
@@ -65,12 +65,12 @@ public class GestionES {
         return lista;
     }
 
-    public MenuResultado resultado() {
+    public int resultado() {
         MenuResultado opcion;
         System.out.println(MenuResultado.getMenu());
         System.out.println("Introduce una opción para el resultado de la tarea:");
         int intOpcion = Integer.parseInt(teclado.nextLine());;
-        return MenuResultado.values()[intOpcion];
+        return intOpcion;
     }
 
     public int indiceHerramienta() {

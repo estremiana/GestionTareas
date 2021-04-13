@@ -3,15 +3,13 @@ package Proyecto;
 import Proyecto.Menu.MenuPrioridad;
 import Proyecto.Resultado.Resultado;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Tarea {
     String titulo;
     String descripcion;
     List<Persona> listaPersonasAsignadas;
-    Persona responsable;
+    Optional<Persona> responsable;
     MenuPrioridad prioridad;
     Date fechaCreacion;
     Date fechaFinalizacion;
@@ -20,13 +18,21 @@ public class Tarea {
     List<String> listaEtiquetas;
 
     public Tarea(){
+        responsable = Optional.empty();
         this.fechaCreacion = new Date();
         this.finalizado = false;
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tarea tarea = (Tarea) o;
+        return finalizado == tarea.finalizado && Objects.equals(titulo, tarea.titulo) && Objects.equals(descripcion, tarea.descripcion) && Objects.equals(listaPersonasAsignadas, tarea.listaPersonasAsignadas) && Objects.equals(responsable, tarea.responsable) && prioridad == tarea.prioridad && Objects.equals(resultado.getClass(), tarea.resultado.getClass()) && Objects.equals(listaEtiquetas, tarea.listaEtiquetas);
+    }
 
-    public Tarea(String titulo, String descripcion, Persona responsable, MenuPrioridad prioridad, Resultado resultado, List<String> listaEtiquetas) {
+    public Tarea(String titulo, String descripcion, Optional<Persona> responsable, MenuPrioridad prioridad, Resultado resultado, List<String> listaEtiquetas) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.listaPersonasAsignadas = new ArrayList<>();
@@ -36,8 +42,6 @@ public class Tarea {
         this.finalizado = false;
         this.resultado = resultado;
         this.listaEtiquetas = listaEtiquetas;
-        if (!listaPersonasAsignadas.contains(responsable))
-            this.listaPersonasAsignadas.add(responsable);
     }
 
     public void finalizar() {
@@ -71,4 +75,46 @@ public class Tarea {
         return cadena.toString();
     }
 
+    //GETTERS
+
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public List<Persona> getListaPersonasAsignadas() {
+        return listaPersonasAsignadas;
+    }
+
+    public Optional<Persona> getResponsable() {
+        return responsable;
+    }
+
+    public MenuPrioridad getPrioridad() {
+        return prioridad;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public Date getFechaFinalizacion() {
+        return fechaFinalizacion;
+    }
+
+    public boolean isFinalizado() {
+        return finalizado;
+    }
+
+    public Resultado getResultado() {
+        return resultado;
+    }
+
+    public List<String> getListaEtiquetas() {
+        return listaEtiquetas;
+    }
 }
