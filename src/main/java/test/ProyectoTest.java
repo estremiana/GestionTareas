@@ -4,6 +4,7 @@ import Proyecto.*;
 import Proyecto.Menu.MenuPrioridad;
 import Proyecto.Menu.MenuResultado;
 import Proyecto.Resultado.Biblioteca;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -197,5 +198,19 @@ class ProyectoTest {
 
         assertTrue(resultado); // para que esté finalizado ha de ser true
 
+    }
+
+    @Test
+    void personasNoResponsables() {
+        proyecto.getTrabajadores().add(dani.get());
+        proyecto.getTrabajadores().add(oscar.get());
+        proyecto.getTrabajadores().add(pablo.get());
+        proyecto.getTareas().add(tareaPrueba);          //la tarea lleva como responsable a dani
+
+        List<Persona> esperado = new ArrayList<Persona>();
+        esperado.add(oscar.get());
+        esperado.add(pablo.get());
+
+        assertEquals(esperado, listaPersonasNoResponsables());
     }
 }
