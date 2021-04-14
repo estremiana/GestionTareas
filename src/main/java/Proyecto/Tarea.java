@@ -2,10 +2,11 @@ package Proyecto;
 
 import Proyecto.Menu.MenuPrioridad;
 import Proyecto.Resultado.Resultado;
+import Proyecto.Interfaces.*;
 
 import java.util.*;
 
-public class Tarea {
+public class Tarea implements tieneLista<Persona>, tieneClave<String> {
     String titulo;
     String descripcion;
     List<Persona> listaPersonasAsignadas;
@@ -116,5 +117,15 @@ public class Tarea {
 
     public List<String> getListaEtiquetas() {
         return listaEtiquetas;
+    }
+
+    @Override
+    public String getClave() {
+        return titulo;
+    }
+
+    @Override
+    public List<Persona> getLista() {
+        return listaPersonasAsignadas;
     }
 }

@@ -1,16 +1,18 @@
 package Proyecto;
 
+import Proyecto.Interfaces.tieneClave;
+import Proyecto.Interfaces.tieneLista;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Persona {
+public class Persona implements tieneClave<String>, tieneLista<Tarea> {
     String nombre;
     String correoElectronico;
     List<Tarea> listaTareasResponsable;
 
-    public Persona() {
-    }
+    public Persona() { }
 
     public Persona(String nombre, String correo) {
         this.nombre = nombre;
@@ -33,6 +35,16 @@ public class Persona {
         if (o == null || getClass() != o.getClass()) return false;
         Persona persona = (Persona) o;
         return Objects.equals(nombre, persona.nombre) && Objects.equals(correoElectronico, persona.correoElectronico) && Objects.equals(listaTareasResponsable, persona.listaTareasResponsable);
+    }
+
+    @Override
+    public String getClave() {
+        return correoElectronico;
+    }
+
+    @Override
+    public List<Tarea> getLista() {
+        return listaTareasResponsable;
     }
 }
 

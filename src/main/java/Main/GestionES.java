@@ -88,10 +88,10 @@ public class GestionES {
         return MenuPrioridad.values()[intOpcion];
     }
 
-    public String nombreProyecto() {
-        System.out.println("Introduce un nombre para el proyecto:");
-        return teclado.nextLine();
-    }
+//    public String nombreProyecto() {
+//        System.out.println("Introduce un nombre para el proyecto:");
+//        return teclado.nextLine();
+//    }
 
 
     //SALIDA
