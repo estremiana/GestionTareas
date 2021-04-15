@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UtilidadesParaListas {
-    public static <E extends tieneLista<E>> List<E> elementosConListaVacia(List<E> listaElementos) {
+    public static <U, E extends tieneLista<U>> List<E> elementosConListaVacia(List<E> listaElementos) {
         List<E> elementosConListaVacia = new ArrayList<>();
         for(E elemento : listaElementos)
             if (elemento.getLista().isEmpty())

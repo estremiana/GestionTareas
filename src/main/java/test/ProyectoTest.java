@@ -4,7 +4,8 @@ import Proyecto.*;
 import Proyecto.Menu.MenuPrioridad;
 import Proyecto.Menu.MenuResultado;
 import Proyecto.Resultado.Biblioteca;
-import org.junit.jupiter.api.Assertions;
+
+import Proyecto.Resultado.Documentacion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,19 +18,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProyectoTest {
 
-    private Proyecto proyecto;
-    private Tarea tareaPrueba;
+    private Proyecto proyectoPrueba;
+    private Tarea tareaPrueba, tareaPruebaSinGente;
     private List<String> etiquetas = new ArrayList<>();
     private Optional<Persona> dani = Optional.of(new Persona("Dani", "dani@gmail.com"));
     private Optional<Persona> oscar = Optional.of(new Persona("Oscar", "oscar@gmail.com"));
     private Optional<Persona> pablo = Optional.of(new Persona("Pablo", "pablo@gmail.com"));
 
 
+    private static <E> void imprimirResultadoYEsperado(E resultado, E esperado) {
+        System.out.println("Resultado:");
+        System.out.println(resultado);
+        System.out.println("Esperado:");
+        System.out.println(esperado);
+        System.out.println();
+    }
+
     @BeforeEach
     void setUp() {
-        proyecto = new Proyecto("Prueba");
+        proyectoPrueba = new Proyecto("Prueba");
         etiquetas.add("prueba");
         tareaPrueba = new Tarea("prueba", "desc", dani, MenuPrioridad.ALTA, new Biblioteca(), etiquetas);
+        tareaPrueba.getListaPersonasAsignadas().add(dani.get());
+        tareaPruebaSinGente = new Tarea("sinGente", "Tarea de prueba sin gente", Optional.empty(), MenuPrioridad.ALTA, new Documentacion(), etiquetas);
     }
 
     @Test
@@ -37,46 +48,34 @@ class ProyectoTest {
     void comprobarListas() {
         System.out.println("Comprobando que las listas están vacías al comienzo del proyecto");
 
+        imprimirResultadoYEsperado(proyectoPrueba.getTrabajadores(), new ArrayList<Persona>());
+        assertEquals(proyectoPrueba.getTrabajadores(), new ArrayList<Persona>());
 
-        System.out.println("Resultado trabajadores:");
-        System.out.println(proyecto.getTrabajadores());
-        System.out.println("Esperado:");
-        System.out.println(new ArrayList<Persona>() + "\n");
-        assertEquals(proyecto.getTrabajadores(), new ArrayList<Persona>());
-
-        System.out.println("Resultado tareas:");
-        System.out.println(proyecto.getTrabajadores());
-        System.out.println("Esperado:");
-        System.out.println(new ArrayList<Tarea>() + "\n");
-        assertEquals(proyecto.getTareas(), new ArrayList<Tarea>());
+        imprimirResultadoYEsperado(proyectoPrueba.getTareas(), new ArrayList<Tarea>());
+        assertEquals(proyectoPrueba.getTareas(), new ArrayList<Tarea>());
     }
 
     @DisplayName("Dar de Alta Trabajador 1")
     @Test
     void darDeAltaTrabajadores() {
         System.out.println("Probando a dar de alta el trabajdor llamado Dani con correo dani@gmail.com");
-        proyecto.darDeAltaTrabajador("Dani", "dani@gmail.com");
+        proyectoPrueba.darDeAltaTrabajador("Dani", "dani@gmail.com");
 
         List<Persona> sol = new ArrayList<>();
         sol.add(new Persona("Dani", "dani@gmail.com"));
 
-        System.out.println("Resultado:");
-        System.out.println(proyecto.getTrabajadores());
-        System.out.println("Esperado:");
-        System.out.println(sol + "\n");
-        assertEquals(sol, proyecto.getTrabajadores());
+        imprimirResultadoYEsperado(proyectoPrueba.getTrabajadores(), sol);
+
 
 
         System.out.println("Probando a dar de alta el trabajdor llamado Óscar con correo oscar@gmail.com");
-        proyecto.darDeAltaTrabajador("Oscar", "oscar@gmail.com");
+        proyectoPrueba.darDeAltaTrabajador("Oscar", "oscar@gmail.com");
 
         sol.add(new Persona("Oscar", "oscar@gmail.com"));
 
-        System.out.println("Resultado:");
-        System.out.println(proyecto.getTrabajadores());
-        System.out.println("Esperado:");
-        System.out.println(sol + "\n");
-        assertEquals(sol, proyecto.getTrabajadores());
+        imprimirResultadoYEsperado(proyectoPrueba.getTrabajadores(), sol);
+
+        assertEquals(sol, proyectoPrueba.getTrabajadores());
     }
 
     @Test
@@ -84,47 +83,33 @@ class ProyectoTest {
 
         List<Tarea> tareasSolucion = new ArrayList<Tarea>();
 
-        proyecto.getTrabajadores().add(dani.get());     //se utiliza .get pq sabemos que no será empty
+        proyectoPrueba.getTrabajadores().add(dani.get());     //se utiliza .get pq sabemos que no será empty
         tareasSolucion.add(tareaPrueba);
 
-        proyecto.darDeAltaTarea("prueba", "desc", "dani@gmail.com", 0, MenuResultado.BIBLIOTECA, etiquetas);
+        proyectoPrueba.darDeAltaTarea("prueba", "desc", "dani@gmail.com", 0, MenuResultado.BIBLIOTECA, etiquetas);
 
-        System.out.println("Resultado:");
-        System.out.println(proyecto.getTareas());
-        System.out.println("Esperado:");
-        System.out.println(tareasSolucion + "\n");
+        imprimirResultadoYEsperado(proyectoPrueba.getTareas(), tareasSolucion);
 
-        assertEquals(tareasSolucion, proyecto.getTareas());
+        assertEquals(tareasSolucion, proyectoPrueba.getTareas());
     }
-
-    //@Test
-    //void listarTareas() {
-    //}
-
-    //@Test
-    //void listarPersonasAsignadasProyecto() {
-    //}
 
     @Test
     void anadirPersonaATarea() {
-        proyecto.getTrabajadores().add(dani.get());
-        proyecto.getTrabajadores().add(oscar.get());
-        proyecto.getTareas().add(tareaPrueba);
+        proyectoPrueba.getTrabajadores().add(dani.get());
+        proyectoPrueba.getTrabajadores().add(oscar.get());
+        proyectoPrueba.getTareas().add(tareaPrueba);
 
-        proyecto.anadirPersonaATareaOptional("prueba", "oscar@gmail.com");
+        proyectoPrueba.anadirPersonaATareaOptional("prueba", "oscar@gmail.com");
         List<Persona> sol = new ArrayList<>();
         sol.add(oscar.get());
 
         List<Persona> listaPersonasTarea = new ArrayList<Persona>();
-        for (Tarea tarea : proyecto.getTareas()) {
+        for (Tarea tarea : proyectoPrueba.getTareas()) {
             if (tarea.getTitulo().equals("prueba"))
                 listaPersonasTarea = tarea.getListaPersonasAsignadas();
         }
 
-        System.out.println("Resultado:");
-        System.out.println(listaPersonasTarea);
-        System.out.println("Esperado:");
-        System.out.println(sol + "\n");
+        imprimirResultadoYEsperado(listaPersonasTarea, sol);
 
         boolean resultado = true;
         for (Persona persona : sol) {
@@ -138,33 +123,30 @@ class ProyectoTest {
 
     @Test
     void eliminarPersonaDeTarea() {
-        proyecto.getTrabajadores().add(dani.get());
-        proyecto.getTrabajadores().add(oscar.get());
-        proyecto.getTareas().add(tareaPrueba);
+        proyectoPrueba.getTrabajadores().add(dani.get());
+        proyectoPrueba.getTrabajadores().add(oscar.get());
+        proyectoPrueba.getTareas().add(tareaPrueba);
 
         List<Persona> sol = new ArrayList<>();
         sol.add(pablo.get());
 
         List<Persona> listaPersonasTarea = new ArrayList<>();
-        for (Tarea tarea : proyecto.getTareas()) {
+        for (Tarea tarea : proyectoPrueba.getTareas()) {
             if (tarea.getTitulo().equals("prueba")) {
                 tarea.getListaPersonasAsignadas().add(oscar.get());
                 tarea.getListaPersonasAsignadas().add(pablo.get());
             }
         }
 
-        proyecto.eliminarPersonaDeTareaOptional("prueba", "oscar@gmail.com");
+        proyectoPrueba.eliminarPersonaDeTareaOptional("prueba", "oscar@gmail.com");
 
-        for (Tarea tarea : proyecto.getTareas()) {
+        for (Tarea tarea : proyectoPrueba.getTareas()) {
             if (tarea.getTitulo().equals("prueba")) {
                 listaPersonasTarea = tarea.getListaPersonasAsignadas();
             }
         }
 
-        System.out.println("Resultado:");
-        System.out.println(listaPersonasTarea);
-        System.out.println("Esperado:");
-        System.out.println(sol + "\n");
+        imprimirResultadoYEsperado(listaPersonasTarea, sol);
 
         boolean resultado = true;
         for (Persona persona : sol) {
@@ -178,23 +160,20 @@ class ProyectoTest {
 
     @Test
     void marcarTareaComoFinalizada() {
-        proyecto.getTareas().add(tareaPrueba);
+        proyectoPrueba.getTareas().add(tareaPrueba);
 
-        proyecto.marcarTareaComoFinalizada("prueba");
+        proyectoPrueba.marcarTareaComoFinalizada("prueba");
 
         boolean resultado = false;
 
-        for (Tarea tarea : proyecto.getTareas()) {
+        for (Tarea tarea : proyectoPrueba.getTareas()) {
             if (tarea.getTitulo().equals("prueba")) {
                 resultado = tarea.isFinalizado();
                 break;
             }
         }
 
-        System.out.println("Resultado:");
-        System.out.println(resultado);
-        System.out.println("Esperado:");
-        System.out.println(true + "\n");
+        imprimirResultadoYEsperado(resultado, true);
 
         assertTrue(resultado); // para que esté finalizado ha de ser true
 
@@ -202,15 +181,63 @@ class ProyectoTest {
 
     @Test
     void personasNoResponsables() {
-        proyecto.getTrabajadores().add(dani.get());
-        proyecto.getTrabajadores().add(oscar.get());
-        proyecto.getTrabajadores().add(pablo.get());
-        proyecto.getTareas().add(tareaPrueba);          //la tarea lleva como responsable a dani
+        proyectoPrueba.getTrabajadores().add(dani.get());
+        proyectoPrueba.getTrabajadores().add(oscar.get());
+        proyectoPrueba.getTrabajadores().add(pablo.get());
+        proyectoPrueba.getTareas().add(tareaPrueba);          //la tarea lleva como responsable a dani
+        dani.get().asignarTarea(tareaPrueba);
 
         List<Persona> esperado = new ArrayList<Persona>();
         esperado.add(oscar.get());
         esperado.add(pablo.get());
 
-        assertEquals(esperado, listaPersonasNoResponsables());
+        List<Persona> resultado = new ArrayList<Persona>();
+        resultado = proyectoPrueba.listaPersonasNoResponsables(proyectoPrueba.getTrabajadores());
+
+        imprimirResultadoYEsperado(resultado, esperado);
+
+        assertEquals(esperado, resultado);
+
+
+    }
+
+    @Test
+    void tareasSinPersonasAsignadas1() {
+        List<Tarea> esperado = new ArrayList<Tarea>();
+
+        List<Tarea> resultado = new ArrayList<Tarea>();
+        resultado = proyectoPrueba.listaTareasSinPersonas();
+
+        imprimirResultadoYEsperado(resultado, esperado);
+
+        assertEquals(new ArrayList<Tarea>(), esperado);
+    }
+
+    @Test
+    void tareasSinPersonasAsignadas2() {
+        proyectoPrueba.getTareas().add(tareaPrueba);
+
+        List<Tarea> esperado = new ArrayList<Tarea>();
+
+        List<Tarea> resultado = new ArrayList<Tarea>();
+        resultado = proyectoPrueba.listaTareasSinPersonas();
+
+        imprimirResultadoYEsperado(resultado, esperado);
+
+        assertEquals(new ArrayList<Tarea>(), esperado);
+    }
+
+    @Test
+    void tareasSinPersonasAsignadas3() {
+        proyectoPrueba.getTareas().add(tareaPruebaSinGente);
+
+        List<Tarea> esperado = new ArrayList<Tarea>();
+        esperado.add(tareaPruebaSinGente);
+
+        List<Tarea> resultado = proyectoPrueba.listaTareasSinPersonas();
+
+        imprimirResultadoYEsperado(resultado, esperado);
+
+        assertEquals(resultado, esperado);
     }
 }

@@ -67,7 +67,7 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String> {
         for (Persona persona : listaPersonasAsignadas)
             cadena.append("\t").append(persona).append("\n");
         cadena.append("\tSiendo el responsable:\n");
-        cadena.append("\t").append(responsable).append("\n");
+        responsable.ifPresent(x -> cadena.append("\t").append(x).append("\n"));
         if (finalizado)
             cadena.append("\tLa tarea está finalizada\n");
         else

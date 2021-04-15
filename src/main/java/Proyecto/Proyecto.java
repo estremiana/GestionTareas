@@ -3,6 +3,7 @@ package Proyecto;
 import Proyecto.Menu.MenuPrioridad;
 import Proyecto.Menu.MenuResultado;
 import Proyecto.Resultado.Resultado;
+import Proyecto.UtilidadesParaListas;
 
 import java.util.*;
 import java.util.List;
@@ -31,6 +32,7 @@ public class Proyecto {
         MenuPrioridad prioridad = MenuPrioridad.getOpcion(intPrioridad);
         Resultado resultado = identificar.resultado(tipo);
         Tarea nuevaTarea = new Tarea(titulo, descripcion, responsable, prioridad, resultado, etiquetas);
+        responsable.ifPresent(x -> nuevaTarea.getListaPersonasAsignadas().add(x));
         tareas.add(nuevaTarea);
         responsable.ifPresent(x -> x.asignarTarea(nuevaTarea));
     }
@@ -68,8 +70,13 @@ public class Proyecto {
         identificar.tarea(titulo, tareas).ifPresent(Tarea::finalizar);
     }
 
+    public List<Persona> listaPersonasNoResponsables(List<Persona> personas) {
+        return UtilidadesParaListas.elementosConListaVacia(personas);
+    }
 
-
+    public List<Tarea> listaTareasSinPersonas() {
+        return UtilidadesParaListas.elementosConListaVacia(tareas);
+    }
 
     //GETTERS
 
@@ -79,6 +86,7 @@ public class Proyecto {
     public List<Tarea> getTareas() {
         return tareas;
     }
+
 
 
 }
