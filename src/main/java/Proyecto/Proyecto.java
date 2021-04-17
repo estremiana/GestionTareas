@@ -1,14 +1,17 @@
 package Proyecto;
 
+import Proyecto.Excepciones.PersonaNoPerteneceException;
+import Proyecto.Excepciones.PersonaYaPerteneceException;
 import Proyecto.Menu.MenuPrioridad;
 import Proyecto.Menu.MenuResultado;
 import Proyecto.Resultado.Resultado;
-import Proyecto.UtilidadesParaListas;
+import Proyecto.Interfaces.tieneLista;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.List;
 
-public class Proyecto {
+public class Proyecto implements tieneLista<Persona>, Serializable {
     List<Tarea> tareas;
     List<Persona> personas;
     String nombreProyecto;
@@ -21,20 +24,34 @@ public class Proyecto {
         this.tareas = new ArrayList<>();
     }
 
-
+    public Proyecto() {}
 
     public void darDeAltaTrabajador (String nombre, String correo) {
-        this.personas.add(new Persona(nombre, correo));
+        Persona persona = new Persona(nombre, correo);
+        try {
+            anadirTrabajador(persona);
+        } catch (PersonaYaPerteneceException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void darDeAltaTarea (String titulo, String descripcion, String correoPersonaResponsable, int intPrioridad, MenuResultado tipo, List<String> etiquetas) {
-        Optional<Persona> responsable = identificar.personaOpcional(correoPersonaResponsable, personas);
+    public void darDeAltaTarea (String titulo, String descripcion, int intPrioridad, MenuResultado tipo, List<String> etiquetas) {
         MenuPrioridad prioridad = MenuPrioridad.getOpcion(intPrioridad);
         Resultado resultado = identificar.resultado(tipo);
-        Tarea nuevaTarea = new Tarea(titulo, descripcion, responsable, prioridad, resultado, etiquetas);
-        responsable.ifPresent(x -> nuevaTarea.getListaPersonasAsignadas().add(x));
+        Tarea nuevaTarea = new Tarea(titulo, descripcion, prioridad, resultado, etiquetas);
         tareas.add(nuevaTarea);
-        responsable.ifPresent(x -> x.asignarTarea(nuevaTarea));
+    }
+
+    public void asignarResponsableATarea (String tituloTarea, String correoResponsable) {
+        Tarea tarea;
+        Persona persona;
+        try {
+                tarea = identificar.tarea(tituloTarea, tareas);
+                persona = identificar.persona(correoResponsable, personas);
+                tarea.anadirResponsable(persona);
+        } catch (IllegalArgumentException | PersonaNoPerteneceException e) {
+            e.printStackTrace();
+        }
     }
 
     public String listarTareas () {
@@ -54,20 +71,32 @@ public class Proyecto {
         return lista.toString();
     }
 
-    public void anadirPersonaATareaOptional(String titulo, String correo) {
-        Optional<Tarea> tarea = identificar.tarea(titulo, tareas);
-        Optional<Persona> persona = identificar.personaOpcional(correo, personas);
-        tarea.ifPresent(tarea1 -> persona.ifPresent(tarea1::añadirPersona));
+    public void anadirPersonaATarea(String titulo, String correo) {
+        try {
+            Tarea tarea = identificar.tarea(titulo, tareas);
+            Persona persona = identificar.persona(correo, personas);
+            tarea.anadirPersona(persona);
+        } catch (IllegalArgumentException | PersonaYaPerteneceException | PersonaNoPerteneceException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void eliminarPersonaDeTareaOptional (String titulo, String correo) {
-        Optional<Tarea> tarea = identificar.tarea(titulo, tareas);
-        Optional<Persona> persona = identificar.personaOpcional(correo, personas);
-        tarea.ifPresent(tarea1 -> persona.ifPresent(tarea1::eliminarPersona));
+    public void eliminarPersonaDeTarea(String titulo, String correo) {
+        try {
+            Tarea tarea = identificar.tarea(titulo, tareas);
+            Persona persona = identificar.persona(correo, personas);
+            tarea.eliminarPersona(persona);
+        } catch (IllegalArgumentException | PersonaNoPerteneceException e) {
+            e.printStackTrace();
+        }
     }
 
     public void marcarTareaComoFinalizada(String titulo) {
-        identificar.tarea(titulo, tareas).ifPresent(Tarea::finalizar);
+        try {
+            identificar.tarea(titulo, tareas).finalizar();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Persona> listaPersonasNoResponsables(List<Persona> personas) {
@@ -76,6 +105,13 @@ public class Proyecto {
 
     public List<Tarea> listaTareasSinPersonas() {
         return UtilidadesParaListas.elementosConListaVacia(tareas);
+    }
+
+
+    public void anadirTrabajador(Persona persona) throws PersonaYaPerteneceException {
+        if (UtilidadesParaListas.sePuedeInsertar(persona, this))
+            this.personas.add(persona);
+        else throw new PersonaYaPerteneceException(persona);
     }
 
     //GETTERS
@@ -88,5 +124,8 @@ public class Proyecto {
     }
 
 
-
+    @Override
+    public List<Persona> getLista() {
+        return personas;
+    }
 }

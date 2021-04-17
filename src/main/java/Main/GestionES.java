@@ -93,6 +93,11 @@ public class GestionES {
 //        return teclado.nextLine();
 //    }
 
+    public String nombreArchivo() {
+        System.out.println("Introduce un nombre para el fichero:");
+        return teclado.nextLine();
+    }
+
 
     //SALIDA
     public void listarPorPantalla(String lista) {

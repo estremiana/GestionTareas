@@ -1,12 +1,15 @@
 package Proyecto;
 
+import Proyecto.Excepciones.PersonaNoPerteneceException;
+import Proyecto.Excepciones.PersonaYaPerteneceException;
 import Proyecto.Menu.MenuPrioridad;
 import Proyecto.Resultado.Resultado;
 import Proyecto.Interfaces.*;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Tarea implements tieneLista<Persona>, tieneClave<String> {
+public class Tarea implements tieneLista<Persona>, tieneClave<String>, Serializable {
     String titulo;
     String descripcion;
     List<Persona> listaPersonasAsignadas;
@@ -33,11 +36,11 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String> {
         return finalizado == tarea.finalizado && Objects.equals(titulo, tarea.titulo) && Objects.equals(descripcion, tarea.descripcion) && Objects.equals(listaPersonasAsignadas, tarea.listaPersonasAsignadas) && Objects.equals(responsable, tarea.responsable) && prioridad == tarea.prioridad && Objects.equals(resultado.getClass(), tarea.resultado.getClass()) && Objects.equals(listaEtiquetas, tarea.listaEtiquetas);
     }
 
-    public Tarea(String titulo, String descripcion, Optional<Persona> responsable, MenuPrioridad prioridad, Resultado resultado, List<String> listaEtiquetas) {
+    public Tarea(String titulo, String descripcion, MenuPrioridad prioridad, Resultado resultado, List<String> listaEtiquetas) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.listaPersonasAsignadas = new ArrayList<>();
-        this.responsable = responsable;
+        this.responsable = Optional.empty();
         this.prioridad = prioridad;
         this.fechaCreacion = new Date();
         this.finalizado = false;
@@ -50,12 +53,26 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String> {
         fechaFinalizacion = new Date();
     }
 
-    public void añadirPersona(Persona persona) {
-        if (!listaPersonasAsignadas.contains(persona))
+    public void anadirPersona(Persona persona)
+            throws PersonaYaPerteneceException {
+        if (UtilidadesParaListas.sePuedeInsertar(persona, this))
             listaPersonasAsignadas.add(persona);
+        else throw new PersonaYaPerteneceException(persona);
     }
 
-    public void eliminarPersona(Persona persona) {
+    public void anadirResponsable(Persona persona)
+    throws PersonaNoPerteneceException {
+        if (listaPersonasAsignadas.contains(persona))
+            responsable = Optional.ofNullable(persona);
+        else
+            throw new PersonaNoPerteneceException(persona);
+    }
+
+    public void eliminarPersona(Persona persona) throws PersonaNoPerteneceException {
+        if (UtilidadesParaListas.sePuedeInsertar(persona, this))    //Si se puede insertar es que no está
+            throw new PersonaNoPerteneceException(persona);
+        else if (responsable.equals(Optional.ofNullable(persona)))
+            responsable = Optional.empty();
         listaPersonasAsignadas.remove(persona);
     }
 
@@ -119,6 +136,12 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String> {
         return listaEtiquetas;
     }
 
+    //SETTERS
+
+    public void setResponsable (Persona persona) {
+        responsable = Optional.ofNullable(persona);
+    }
+
     @Override
     public String getClave() {
         return titulo;
@@ -128,4 +151,6 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String> {
     public List<Persona> getLista() {
         return listaPersonasAsignadas;
     }
+
+
 }

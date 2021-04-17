@@ -6,8 +6,11 @@ public enum MenuHerramientas {
     LISTAR_TAREAS("Mostrar una lista con las tareas existentes"),
     LISTAR_PERSONAS_ASIGNADAS("Mostrar una lista con las personas asignadas a un proyecto"),
     ANADIR_PERSONA_A_TAREA("Añadir a una persona a una tarea"),
+    ANADIR_RESPONSABLE_A_TAREA("Asignar una persona responsable a una tarea"),
     ELIMINAR_PERSONA_TAREA("Eliminar a una persona de una tarea"),
     MARCAR_TAREA_FINALIZADA("Dar una tarea por finalizada"),
+    CARGAR_DATOS_DESDE_ARCHIVO("Cargar los datos desde un archivo"),
+    GUARDAR_DATOS_A_ARCHIVO("Guardar los datos en un archivo"),
     SALIR("Salir");
 
     private String descripcion;

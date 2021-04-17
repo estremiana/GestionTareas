@@ -14,10 +14,11 @@ public class UtilidadesParaListas {
         return elementosConListaVacia;
     }
 
-    public static <E extends tieneClave<E>, T extends tieneLista<E>> boolean sePuedeInsertar(E elementoAInsertar, T elementoDondeInsertar) {
+    public static <E extends tieneClave<String>, T extends tieneLista<E>> boolean sePuedeInsertar(E elementoAInsertar, T elementoDondeInsertar) {
         for (E elementoLista : elementoDondeInsertar.getLista())
             if (elementoAInsertar.getClave().equals(elementoLista.getClave()))
                 return false;
         return true;
     }
+
 }

@@ -3,11 +3,12 @@ package Proyecto;
 import Proyecto.Interfaces.tieneClave;
 import Proyecto.Interfaces.tieneLista;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Persona implements tieneClave<String>, tieneLista<Tarea> {
+public class Persona implements tieneClave<String>, tieneLista<Tarea>, Serializable {
     String nombre;
     String correoElectronico;
     List<Tarea> listaTareasResponsable;

@@ -1,13 +1,14 @@
 package Proyecto;
 
+import Proyecto.Excepciones.PersonaNoPerteneceException;
 import Proyecto.Menu.MenuPrioridad;
 import Proyecto.Menu.MenuResultado;
 import Proyecto.Resultado.*;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
-public class Identificador {
+public class Identificador implements Serializable {
     public Identificador () { }
 
     //ENUMS
@@ -30,23 +31,25 @@ public class Identificador {
     }
 
 
-    //OPTIONALS
+    //PROYECTO
 
-    public Optional<Tarea> tarea (String tituloTarea, List<Tarea> tareas) {
+    public Tarea tarea (String tituloTarea, List<Tarea> tareas)
+    throws IllegalArgumentException{
         for (Tarea tarea : tareas) {
             if (tarea.titulo.equals(tituloTarea))
-                return Optional.of(tarea);
+                return tarea;
         }
-        return Optional.empty();
+        throw new IllegalArgumentException("La tarea " + tituloTarea + " no se ha encontrado");
     }
 
-    public Optional<Persona> personaOpcional(String correo, List<Persona> personas) {
+    public Persona persona(String correo, List<Persona> personas)
+            throws PersonaNoPerteneceException {
         for (Persona persona : personas) {
             if (correo.equals(persona.correoElectronico)) {
-                return Optional.of(persona);
+                return persona;
             }
         }
-        return Optional.empty();
+        throw new PersonaNoPerteneceException(correo);
     }
 
 
