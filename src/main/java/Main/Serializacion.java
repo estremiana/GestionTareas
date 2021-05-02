@@ -27,16 +27,15 @@ public class Serializacion {
         }
     }
 
-
-    public Proyecto cargarDatosDeFichero(Proyecto proyecto){
+    public Proyecto cargarDatosDeFichero(){
         String nombreArchivo = entrada.nombreArchivo();
         try (FileInputStream fis = new FileInputStream(nombreArchivo)) {
             try (ObjectInputStream ois = new ObjectInputStream(fis)){
-                proyecto = (Proyecto)ois.readObject();
+                return (Proyecto)ois.readObject();
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return proyecto;
+        return null;
     }
 }

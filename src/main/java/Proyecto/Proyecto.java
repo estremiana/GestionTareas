@@ -56,17 +56,27 @@ public class Proyecto implements tieneLista<Persona>, Serializable {
 
     public String listarTareas () {
         StringBuilder lista = new StringBuilder();
-        lista.append("Las tareas del proyecto ").append(nombreProyecto).append(" son: \n");
-        for (Tarea tarea : tareas) {
-            lista.append(tarea.toString());
+        lista.append("\n");
+        if (tareas.isEmpty()) {
+            lista.append("No hay tareas asignadas al proyecto ").append(nombreProyecto).append("\n");
+        } else {
+            lista.append("Las tareas del proyecto ").append(nombreProyecto).append(" son: \n");
+            for (Tarea tarea : tareas) {
+                lista.append(tarea.toString()).append("\n");
+            }
         }
         return lista.toString();
     }
 
     public String listarPersonasAsignadasProyecto() {
-        StringBuilder lista = new StringBuilder("Las personas asignadas al proyecto " + nombreProyecto + " son:\n");
-        for (Persona persona : personas) {
-            lista.append(persona.toString()).append("\n");
+        StringBuilder lista = new StringBuilder();
+        if (personas.isEmpty()) {
+            lista.append("No hay personas asignadas al proyecto ").append(nombreProyecto).append("\n");
+        } else {
+            lista.append("Las personas asignadas al proyecto ").append(nombreProyecto).append(" son:\n");
+            for (Persona persona : personas) {
+                lista.append(persona.toString()).append("\n");
+            }
         }
         return lista.toString();
     }
@@ -122,6 +132,7 @@ public class Proyecto implements tieneLista<Persona>, Serializable {
     public List<Tarea> getTareas() {
         return tareas;
     }
+    public String getNombreProyecto() {return nombreProyecto;}
 
 
     @Override

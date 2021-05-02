@@ -25,8 +25,10 @@ public abstract class GeneralTest {
         proyectoPrueba = new Proyecto("Prueba");
         etiquetas.add("prueba");
         tareaPrueba = new Tarea("prueba", "desc",MenuPrioridad.ALTA, new Biblioteca(), etiquetas);
+        tareaPrueba.setCoste(100);
         tareaPrueba.getListaPersonasAsignadas().add(dani);
         tareaPrueba.setResponsable(dani);
+        dani.getLista().add(tareaPrueba);
         tareaPruebaSinGente = new Tarea("sinGente", "Tarea de prueba sin gente", MenuPrioridad.ALTA, new Documentacion(), etiquetas);
     }
 

@@ -25,6 +25,10 @@ public class Persona implements tieneClave<String>, tieneLista<Tarea>, Serializa
         listaTareasResponsable.add(nuevaTarea);
     }
 
+    public void eliminarTarea(Tarea viejaTarea) {
+        listaTareasResponsable.remove(viejaTarea);
+    }
+
     @Override
     public String toString() {
         return " - " + nombre + ", correo : " + correoElectronico;

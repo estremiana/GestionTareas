@@ -1,6 +1,7 @@
 package test;
 
 import Proyecto.*;
+import Proyecto.Excepciones.PersonaNoPerteneceException;
 import Proyecto.Menu.MenuResultado;
 
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -75,6 +77,7 @@ class ProyectoTest extends GeneralTest{
         proyectoPrueba.anadirPersonaATarea("prueba", "oscar@gmail.com");
         List<Persona> sol = new ArrayList<>();
         sol.add(oscar);
+        sol.add(dani);                                                                     //Con dani no se usa anadirPersonaATarea() pq ya está en la tarea
 
         List<Persona> listaPersonasTarea = new ArrayList<Persona>();
         for (Tarea tarea : proyectoPrueba.getTareas()) {
@@ -82,7 +85,7 @@ class ProyectoTest extends GeneralTest{
                 listaPersonasTarea = tarea.getListaPersonasAsignadas();
         }
 
-        imprimirResultadoYEsperado(listaPersonasTarea, sol);
+        imprimirResultadoYEsperado(sol, listaPersonasTarea);
 
         boolean resultado = true;
         for (Persona persona : sol) {
@@ -201,6 +204,39 @@ class ProyectoTest extends GeneralTest{
     }
 
     @Test
+    void comprobarAnadirResponsable() throws PersonaNoPerteneceException {
+        tareaPruebaSinGente.getListaPersonasAsignadas().add(oscar);
+        tareaPruebaSinGente.anadirResponsable(oscar);
+
+        imprimirResultadoYEsperado(tareaPruebaSinGente.getResponsable(), oscar);
+        assertEquals(tareaPruebaSinGente.getResponsable(), oscar);
+
+        boolean resultado = tareaPruebaSinGente.getListaPersonasAsignadas().contains(oscar);
+        imprimirResultadoYEsperado(true, resultado);
+        assertTrue(resultado);
+
+        resultado = oscar.getLista().contains(tareaPruebaSinGente);
+        imprimirResultadoYEsperado(true, resultado);
+        assertTrue(resultado);
+    }
+
+    @Test
+    void comprobarEliminarPersona() throws PersonaNoPerteneceException {
+        tareaPrueba.eliminarPersona(dani);
+
+        imprimirResultadoYEsperado(tareaPrueba.getResponsable(), null);
+        assertNull(tareaPrueba.getResponsable());
+
+        boolean resultado = tareaPrueba.getListaPersonasAsignadas().contains(oscar);
+        imprimirResultadoYEsperado(false, resultado);
+        assertFalse(resultado);
+
+        resultado = dani.getLista().contains(tareaPrueba);
+        imprimirResultadoYEsperado(false, resultado);
+        assertFalse(resultado);
+    }
+
+    @Test
     void tareasSinPersonasAsignadas3() {
         proyectoPrueba.getTareas().add(tareaPruebaSinGente);
 
@@ -214,8 +250,4 @@ class ProyectoTest extends GeneralTest{
         assertEquals(resultado, esperado);
     }
 
-    @Test
-    void asignarResponsableATarea() {
-
-    }
 }

@@ -1,8 +1,10 @@
 package Main;
 
-import Proyecto.Menu.MenuHerramientas;
+import Main.Menu.MenuHerramientas;
+import Main.Menu.MenuInicio;
 import Proyecto.Menu.MenuPrioridad;
 import Proyecto.Menu.MenuResultado;
+import Proyecto.Proyecto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +68,18 @@ public class GestionES {
     }
 
     public int resultado() {
-        MenuResultado opcion;
         System.out.println(MenuResultado.getMenu());
         System.out.println("Introduce una opción para el resultado de la tarea:");
         int intOpcion = Integer.parseInt(teclado.nextLine());;
         return intOpcion;
+    }
+
+    public int indiceInicio() {
+        System.out.println(MenuInicio.getMenu());
+        System.out.println("Elige una opción:");
+        int indice = Integer.parseInt(teclado.nextLine());
+        System.out.println(MenuInicio.getOpcion(indice).getDescripcion());
+        return indice;
     }
 
     public int indiceHerramienta() {
@@ -88,10 +97,7 @@ public class GestionES {
         return MenuPrioridad.values()[intOpcion];
     }
 
-//    public String nombreProyecto() {
-//        System.out.println("Introduce un nombre para el proyecto:");
-//        return teclado.nextLine();
-//    }
+
 
     public String nombreArchivo() {
         System.out.println("Introduce un nombre para el fichero:");
@@ -104,4 +110,12 @@ public class GestionES {
         System.out.println(lista);
     }
 
+    public String nombreProyecto() {
+        System.out.println("Introduce un nombre para el proyecto:");
+        return teclado.nextLine();
+    }
+
+    public void cargaCorrecta(Proyecto proyecto) {
+        System.out.println("El proyecto " + proyecto.getNombreProyecto() + " se ha cargado correctamente\n");
+    }
 }
