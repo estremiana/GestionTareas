@@ -10,7 +10,7 @@ public class ConsumoInternoTest extends GeneralTest {
     @Test
     void calcularcosteTest(){
        Facturacion prueba = new ConsumoInterno();
-       int costeFinal = prueba.calcularCoste(tareaPrueba);
+       float costeFinal = prueba.calcularCoste(tareaPrueba);
 
        imprimirResultadoYEsperado(costeFinal, 100);
 

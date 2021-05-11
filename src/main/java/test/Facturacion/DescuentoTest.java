@@ -3,6 +3,7 @@ package test.Facturacion;
 import Proyecto.Facturacion.ConsumoInterno;
 import Proyecto.Facturacion.Descuento;
 import Proyecto.Facturacion.Facturacion;
+import Proyecto.Persona;
 import org.junit.jupiter.api.Test;
 import test.GeneralTest;
 
@@ -11,8 +12,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DescuentoTest extends GeneralTest {
     @Test
     void calcularCosteConDescuentoDaniTest(){
-        Facturacion prueba = new Descuento();
-        int costeFinal = prueba.calcularCoste(tareaPrueba);
+        Descuento prueba = new Descuento();
+        prueba.anadirPersonasConDescuento(dani);
+        float costeFinal = prueba.calcularCoste(tareaPrueba);
+
+        imprimirResultadoYEsperado(costeFinal, 80);
+
+        assertEquals(costeFinal, 80);
+    }
+
+    @Test
+    void calcularCosteConDescuentoDaniOtroTest(){
+        Descuento prueba = new Descuento();
+        prueba.anadirPersonasConDescuento(new Persona("Dani", "dani@gmail.com"));
+        float costeFinal = prueba.calcularCoste(tareaPrueba);
 
         imprimirResultadoYEsperado(costeFinal, 80);
 
@@ -21,10 +34,12 @@ public class DescuentoTest extends GeneralTest {
 
     @Test
     void calcularCosteConDescuentoOscarTest(){
-        Facturacion prueba = new Descuento();
+        Descuento prueba = new Descuento();
+        prueba.anadirPersonasConDescuento(dani);
         tareaPruebaSinGente.getListaPersonasAsignadas().add(oscar);
         tareaPruebaSinGente.setResponsable(oscar);
-        int costeFinal = prueba.calcularCoste(tareaPruebaSinGente);
+        tareaPruebaSinGente.setCoste(100);
+        float costeFinal = prueba.calcularCoste(tareaPruebaSinGente);
 
         imprimirResultadoYEsperado(costeFinal, 100);
 

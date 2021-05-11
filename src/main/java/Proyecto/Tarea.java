@@ -2,6 +2,7 @@ package Proyecto;
 
 import Proyecto.Excepciones.PersonaNoPerteneceException;
 import Proyecto.Excepciones.PersonaYaPerteneceException;
+import Proyecto.Facturacion.ConsumoInterno;
 import Proyecto.Facturacion.Facturacion;
 import Proyecto.Menu.MenuPrioridad;
 import Proyecto.Resultado.Resultado;
@@ -21,7 +22,7 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String>, Serializa
     boolean finalizado;
     Resultado resultado;
     List<String> listaEtiquetas;
-    int coste;
+    float coste;
     Facturacion facturacion;
 
     public Tarea(){
@@ -48,6 +49,7 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String>, Serializa
         this.finalizado = false;
         this.resultado = resultado;
         this.listaEtiquetas = listaEtiquetas;
+        this.coste = 0;
     }
 
     public void finalizar() {
@@ -85,6 +87,7 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String>, Serializa
         responsable = null;
     }
 
+
     @Override
     public String toString() {
         StringBuilder cadena = new StringBuilder();
@@ -95,6 +98,9 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String>, Serializa
         cadena.append("\tSiendo el responsable:\n");
         if (responsable != null)
             cadena.append("\t").append(responsable).append("\n");
+        cadena.append("\tEl coste aproximado de la tarea es: ").append(coste).append("\n");
+        if (facturacion != null)
+            cadena.append("\tEl coste teniendo en cuenta la facturación: ").append(facturacion.calcularCoste(this)).append("\n");
         if (finalizado)
             cadena.append("\tLa tarea está finalizada\n");
         else
@@ -146,7 +152,7 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String>, Serializa
         return listaEtiquetas;
     }
 
-    public int getCoste() {
+    public float getCoste() {
         return coste;
     }
 
@@ -156,10 +162,14 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String>, Serializa
         responsable = persona;
     }
 
-    public void setCoste (int coste) { this.coste = coste;}
+    public void setCoste (float coste) { this.coste = coste;}
 
     public void setPrioridad(MenuPrioridad prioridad) {
         this.prioridad = prioridad;
+    }
+
+    public void setFacturacion(Facturacion facturacion) {
+        this.facturacion = facturacion;
     }
 
     @Override
@@ -171,6 +181,5 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String>, Serializa
     public List<Persona> getLista() {
         return listaPersonasAsignadas;
     }
-
 
 }

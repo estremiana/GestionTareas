@@ -2,6 +2,7 @@ package test.Facturacion;
 
 import Proyecto.Facturacion.Descuento;
 import Proyecto.Facturacion.Facturacion;
+import Proyecto.Facturacion.Urgente;
 import Proyecto.Menu.MenuPrioridad;
 import org.junit.jupiter.api.Test;
 import test.GeneralTest;
@@ -11,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UrgenteTest extends GeneralTest {
     @Test
     void calcularCosteConUrgenciaBajaTest(){
-        Facturacion prueba = new Descuento();
+        Facturacion prueba = new Urgente();
         tareaPruebaSinGente.setCoste(100);
         tareaPruebaSinGente.setPrioridad(MenuPrioridad.BAJA);
-        int costeFinal = prueba.calcularCoste(tareaPrueba);
+        float costeFinal = prueba.calcularCoste(tareaPruebaSinGente);
 
         imprimirResultadoYEsperado(costeFinal, 100);
 
@@ -23,10 +24,10 @@ public class UrgenteTest extends GeneralTest {
 
     @Test
     void calcularCosteConUrgenciaMediaTest(){
-        Facturacion prueba = new Descuento();
+        Facturacion prueba = new Urgente();
         tareaPruebaSinGente.setCoste(100);
         tareaPruebaSinGente.setPrioridad(MenuPrioridad.MEDIA);
-        int costeFinal = prueba.calcularCoste(tareaPrueba);
+        float costeFinal = prueba.calcularCoste(tareaPruebaSinGente);
 
         imprimirResultadoYEsperado(costeFinal, 110);
 
@@ -35,10 +36,10 @@ public class UrgenteTest extends GeneralTest {
 
     @Test
     void calcularCosteConUrgenciaAltaTest(){
-        Facturacion prueba = new Descuento();
+        Facturacion prueba = new Urgente();
         tareaPruebaSinGente.setCoste(100);
         tareaPruebaSinGente.setPrioridad(MenuPrioridad.ALTA);
-        int costeFinal = prueba.calcularCoste(tareaPrueba);
+        float costeFinal = prueba.calcularCoste(tareaPruebaSinGente);
 
         imprimirResultadoYEsperado(costeFinal, 120);
 

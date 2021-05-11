@@ -1,5 +1,6 @@
 package Main;
 
+import Main.Menu.MenuFacturacion;
 import Main.Menu.MenuHerramientas;
 import Main.Menu.MenuInicio;
 import Proyecto.Menu.MenuPrioridad;
@@ -90,6 +91,14 @@ public class GestionES {
         return indice;
     }
 
+    public int indiceFacturacion() {
+        System.out.println(MenuFacturacion.getMenu());
+        System.out.println("Elige una opción:");
+        int indice = Integer.parseInt(teclado.nextLine());
+        System.out.println(MenuFacturacion.getOpcion(indice).getDescripcion());
+        return indice;
+    }
+
     public MenuPrioridad prioridad() {
         System.out.println(MenuPrioridad.getMenu());
         System.out.println("Introduce una opción para la prioridad de la tarea:");
@@ -102,6 +111,11 @@ public class GestionES {
     public String nombreArchivo() {
         System.out.println("Introduce un nombre para el fichero:");
         return teclado.nextLine();
+    }
+
+    public float coste() {
+        System.out.println("Introduce una coste para la tarea");
+        return Float.parseFloat(teclado.nextLine());
     }
 
 

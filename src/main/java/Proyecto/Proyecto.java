@@ -124,6 +124,14 @@ public class Proyecto implements tieneLista<Persona>, Serializable {
         else throw new PersonaYaPerteneceException(persona);
     }
 
+    public void anadirCosteATarea(String tituloTarea, float coste) {
+        try {
+            identificar.tarea(tituloTarea, tareas).setCoste(coste);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
     //GETTERS
 
     public List<Persona> getTrabajadores() {

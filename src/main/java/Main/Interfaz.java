@@ -1,16 +1,20 @@
 package Main;
 
+import Main.Menu.MenuFacturacion;
 import Main.Menu.MenuInicio;
 import Proyecto.Identificador;
 import Main.Menu.MenuHerramientas;
 import Proyecto.Menu.MenuResultado;
 import Proyecto.Proyecto;
+import Proyecto.Tarea;
+import Proyecto.Facturacion.*;
 
 public class Interfaz {
     public Interfaz() {}
 
     GestionES entrada = new GestionES();
     GestionES salida = new GestionES();
+    Proyecto proyecto;
     Identificador identificador = new Identificador();
     Serializacion serializacion = new Serializacion();
 
@@ -18,13 +22,16 @@ public class Interfaz {
         MenuInicio opcion = MenuInicio.getOpcion(entrada.indiceInicio());
         switch (opcion) {
             case CARGAR_PROYECTO -> {
-                Proyecto proyecto = serializacion.cargarDatosDeFichero();
+                proyecto = serializacion.cargarDatosDeFichero();
                 if (proyecto != null){
                     salida.cargaCorrecta(proyecto);
-                    herramienta(proyecto);
+                    herramienta();
                 }
             }
-            case NUEVO_PROYECTO -> herramienta(new Proyecto(entrada.nombreProyecto()));
+            case NUEVO_PROYECTO -> {
+                proyecto = new Proyecto(entrada.nombreProyecto());
+                herramienta();
+            }
             case SALIR -> {
                 return;
             }
@@ -32,7 +39,7 @@ public class Interfaz {
         inicio();
     }
 
-    public void herramienta (Proyecto proyecto) {
+    public void herramienta () {
         MenuHerramientas accion = MenuHerramientas.getOpcion(entrada.indiceHerramienta());
         switch (accion) {
             case DAR_DE_ALTA_TRABAJADOR -> proyecto.darDeAltaTrabajador(entrada.nombreTrabajador(), entrada.correoTrabajador());
@@ -44,14 +51,27 @@ public class Interfaz {
             case ELIMINAR_PERSONA_TAREA -> proyecto.eliminarPersonaDeTarea(entrada.tituloTarea(), entrada.correoTrabajador());
             case MARCAR_TAREA_FINALIZADA -> proyecto.marcarTareaComoFinalizada(entrada.tituloTarea());
             case GUARDAR_DATOS_A_ARCHIVO -> serializacion.guardarDatosAFichero(proyecto);
-            case ANADIR_FACTURACION -> ;
+            case ANADIR_FACTURACION -> {
+                try {
+                    Tarea tarea = identificador.tarea(entrada.tituloTarea(), proyecto.getTareas());
+                    facturacion(tarea);
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
+            }
+            case ANADIR_COSTE -> proyecto.anadirCosteATarea(entrada.tituloTarea(), entrada.coste());
             case SALIR -> { return; }
         }
-        herramienta(proyecto);
+        herramienta();
     }
 
-    public void facturacion (Proyecto proyecto) {
-
+    public void facturacion (Tarea tarea) {
+        MenuFacturacion facturacion = MenuFacturacion.getOpcion(entrada.indiceFacturacion());
+        switch (facturacion) {
+            case CONSUMO_INTERNO -> tarea.setFacturacion(new ConsumoInterno());
+            case DESCUENTO -> tarea.setFacturacion(new Descuento());
+            case URGENTE -> tarea.setFacturacion(new Urgente());
+        }
     }
 
 }

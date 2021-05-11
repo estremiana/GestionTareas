@@ -39,7 +39,7 @@ public class Persona implements tieneClave<String>, tieneLista<Tarea>, Serializa
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Persona persona = (Persona) o;
-        return Objects.equals(nombre, persona.nombre) && Objects.equals(correoElectronico, persona.correoElectronico) && Objects.equals(listaTareasResponsable, persona.listaTareasResponsable);
+        return Objects.equals(nombre, persona.nombre) && Objects.equals(correoElectronico, persona.correoElectronico);
     }
 
     @Override

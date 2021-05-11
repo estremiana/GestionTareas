@@ -10,6 +10,8 @@ public enum MenuHerramientas {
     ELIMINAR_PERSONA_TAREA("Eliminar a una persona de una tarea"),
     MARCAR_TAREA_FINALIZADA("Dar una tarea por finalizada"),
     GUARDAR_DATOS_A_ARCHIVO("Guardar los datos en un archivo"),
+    ANADIR_FACTURACION("Añadir tipo de facturación a una tarea"),
+    ANADIR_COSTE("Añadir coste aproximado de un tarea"),
     SALIR("Atrás");
 
     private String descripcion;
