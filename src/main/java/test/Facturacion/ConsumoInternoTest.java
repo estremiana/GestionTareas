@@ -1,7 +1,7 @@
 package test.Facturacion;
 
-import Proyecto.Facturacion.ConsumoInterno;
-import Proyecto.Facturacion.Facturacion;
+import Modelo.Facturacion.ConsumoInterno;
+import Modelo.Facturacion.Facturacion;
 import org.junit.jupiter.api.Test;
 import test.GeneralTest;
 import static org.junit.jupiter.api.Assertions.*;

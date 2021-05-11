@@ -1,15 +1,15 @@
 package test;
 
-import Proyecto.*;
-import Proyecto.Excepciones.PersonaNoPerteneceException;
-import Proyecto.Menu.MenuResultado;
+import Modelo.Persona;
+import Modelo.Tarea;
+import Modelo.Excepciones.PersonaNoPerteneceException;
+import Modelo.Menu.MenuResultado;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 

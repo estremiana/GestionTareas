@@ -1,11 +1,13 @@
 package test;
 
-import Proyecto.*;
+import Modelo.Persona;
+import Modelo.Proyecto;
+import Modelo.Tarea;
 
 
-import Proyecto.Menu.MenuPrioridad;
-import Proyecto.Resultado.Biblioteca;
-import Proyecto.Resultado.Documentacion;
+import Modelo.Menu.MenuPrioridad;
+import Modelo.Resultado.Biblioteca;
+import Modelo.Resultado.Documentacion;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;

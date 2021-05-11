@@ -1,8 +1,8 @@
 package test;
 
-import Proyecto.Excepciones.PersonaNoPerteneceException;
-import Proyecto.Excepciones.PersonaYaPerteneceException;
-import Proyecto.Identificador;
+import Modelo.Excepciones.PersonaNoPerteneceException;
+import Modelo.Excepciones.PersonaYaPerteneceException;
+import Modelo.Identificador;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

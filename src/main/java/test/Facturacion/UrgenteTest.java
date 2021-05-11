@@ -1,9 +1,8 @@
 package test.Facturacion;
 
-import Proyecto.Facturacion.Descuento;
-import Proyecto.Facturacion.Facturacion;
-import Proyecto.Facturacion.Urgente;
-import Proyecto.Menu.MenuPrioridad;
+import Modelo.Facturacion.Facturacion;
+import Modelo.Facturacion.Urgente;
+import Modelo.Menu.MenuPrioridad;
 import org.junit.jupiter.api.Test;
 import test.GeneralTest;
 
