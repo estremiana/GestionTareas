@@ -1,6 +1,6 @@
 package Vista;
 
-import Controlador.Serializacion;
+import Modelo.Serializacion;
 import Controlador.GestionES;
 import Vista.Menu.MenuFacturacion;
 import Vista.Menu.MenuInicio;

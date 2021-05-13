@@ -1,5 +1,6 @@
-package Controlador;
+package Modelo;
 
+import Controlador.GestionES;
 import Modelo.Proyecto;
 
 import java.io.FileOutputStream;
@@ -10,7 +11,7 @@ import java.io.ObjectInputStream;
 
 
 
-public class Serializacion {
+public class Serializacion implements CambioModelo {
     public Serializacion() { }
 
     private final GestionES entrada = new GestionES();
@@ -36,5 +37,10 @@ public class Serializacion {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void importarProyecto(String fichero) {
+
     }
 }

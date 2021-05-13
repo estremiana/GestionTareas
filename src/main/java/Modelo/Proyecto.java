@@ -6,15 +6,17 @@ import Modelo.Menu.MenuPrioridad;
 import Modelo.Menu.MenuResultado;
 import Modelo.Resultado.Resultado;
 import Modelo.Interfaces.tieneLista;
+import Vista.InformaVista;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
-public class Proyecto implements tieneLista<Persona>, Serializable {
+public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo{
     List<Tarea> tareas;
     List<Persona> personas;
     String nombreProyecto;
+    InformaVista vista;
 
     Identificador identificar = new Identificador();
 
@@ -146,5 +148,25 @@ public class Proyecto implements tieneLista<Persona>, Serializable {
     @Override
     public List<Persona> getLista() {
         return personas;
+    }
+
+    @Override
+    public void importarProyecto(String fichero) {
+        try (FileInputStream fis = new FileInputStream(fichero)) {
+            try (ObjectInputStream ois = new ObjectInputStream(fis)){
+                Proyecto este = (Proyecto)ois.readObject();
+                this.tareas = este.tareas;
+                this.nombreProyecto = este.nombreProyecto;
+                this.personas = este.personas;
+                vista.cargaCorrecta();
+            }
+        } catch (IOException | ClassNotFoundException | NullPointerException e) {
+            e.printStackTrace();
+            vista.cargaFallida();
+        }
+    }
+
+    public void setVista(InformaVista vista) {
+        this.vista = vista;
     }
 }
