@@ -1,18 +1,27 @@
 package Modelo.Menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum MenuPrioridad {
-    ALTA("Prioridad alta"),
-    MEDIA("Prioridad media"),
-    BAJA("Prioridad baja");
+    ALTA("Prioridad alta", "Alta"),
+    MEDIA("Prioridad media", "Media"),
+    BAJA("Prioridad baja", "Baja");
 
-    private String descripcion;
+    private final String descripcion;
+    private final String tipo;
 
-    MenuPrioridad(String descripcion){
+    MenuPrioridad(String descripcion, String tipo){
         this.descripcion = descripcion;
+        this.tipo = tipo;
     }
 
     public static MenuPrioridad getOpcion (int posicion){
         return  values()[posicion];
+    }
+
+    public static String getTipo (MenuPrioridad opcion) {
+        return opcion.tipo;
     }
 
     public static String getMenu() {
@@ -25,4 +34,14 @@ public enum MenuPrioridad {
         }
         return sb.toString();
     }
+
+    public static String[] getTipos() {
+        List<String> tipos = new ArrayList<>();
+        for(MenuPrioridad opcion: MenuPrioridad.values()) {
+            tipos.add(opcion.tipo);
+        }
+        return tipos.toArray(new String[]{});
+    }
+
+
 }

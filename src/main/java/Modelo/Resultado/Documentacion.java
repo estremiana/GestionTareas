@@ -15,5 +15,5 @@ public class Documentacion extends Resultado {
     }
 
     @Override
-    public String tipo() {return "Documentación";}
+    public String tipo() {return "Documentacion";}
 }

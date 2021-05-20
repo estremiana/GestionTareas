@@ -1,5 +1,7 @@
 package Vista;
 
 public interface InterrogaVista {
-    String getEntrada();
+    String getUbicacionFichero();
+
+    String getNuevoNombreProyecto();
 }

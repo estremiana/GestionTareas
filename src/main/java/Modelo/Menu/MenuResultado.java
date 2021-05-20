@@ -1,15 +1,22 @@
 package Modelo.Menu;
 
+import Modelo.Resultado.Biblioteca;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public enum MenuResultado {
-    BIBLIOTECA("Resultado de la tarea : Biblioteca"),
-    PAGINAWEB("Resultado de la tarea : Página web"),
-    PROGRAMA("Resultado de la tarea : Programa"),
-    DOCUMENTACION("Resultado de la tarea : Documentación");
+    BIBLIOTECA("Resultado de la tarea : Biblioteca", "Biblioteca"),
+    PAGINAWEB("Resultado de la tarea : Pagina web", "Pagina Web"),
+    PROGRAMA("Resultado de la tarea : Programa", "Programa"),
+    DOCUMENTACION("Resultado de la tarea : Documentacion", "Documentacion");
 
-    private String descripcion;
+    private final String descripcion;
+    private final String tipo;
 
-    MenuResultado(String descripcion){
+    MenuResultado(String descripcion, String tipo){
         this.descripcion = descripcion;
+        this.tipo = tipo;
     }
 
     public static MenuResultado getOpcion (int posicion){
@@ -25,5 +32,13 @@ public enum MenuResultado {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public static String[] getTipos() {
+        List<String> tipos = new ArrayList<>();
+        for(MenuResultado opcion: MenuResultado.values()) {
+            tipos.add(opcion.tipo);
+        }
+        return tipos.toArray(new String[]{});
     }
 }

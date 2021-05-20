@@ -1,6 +1,7 @@
 package Controlador;
 
 import Modelo.CambioModelo;
+import Modelo.Tarea;
 import Vista.InterrogaVista;
 
 public class ImplementacionControladorInicio implements ControladorInicio{
@@ -9,12 +10,29 @@ public class ImplementacionControladorInicio implements ControladorInicio{
 
     @Override
     public void importar() {
-        String fichero = vista.getEntrada();
+        String fichero = vista.getUbicacionFichero();
         modelo.importarProyecto(fichero);
     }
 
     @Override
-    public void nuevo() {
+    public void nuevoProyecto() {
+        String nuevoNombre = vista.getNuevoNombreProyecto();
+        modelo.setNombreProyecto(nuevoNombre);
+    }
+
+    @Override
+    public void nuevaTarea() {
+        modelo.darDeAltaTareaVacia();
+
+    }
+
+    @Override
+    public void guardarCambiosTarea() {
+
+    }
+
+    @Override
+    public void tareaSeleccionada() {
 
     }
 

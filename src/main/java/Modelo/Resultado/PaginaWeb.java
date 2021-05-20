@@ -15,5 +15,5 @@ public class PaginaWeb extends Resultado {
     }
 
     @Override
-    public String tipo() {return "Página Web";}
+    public String tipo() {return "Pagina Web";}
 }

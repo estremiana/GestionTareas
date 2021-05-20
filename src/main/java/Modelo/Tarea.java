@@ -10,7 +10,7 @@ import Modelo.Interfaces.*;
 import java.io.Serializable;
 import java.util.*;
 
-public class Tarea implements tieneLista<Persona>, tieneClave<String>, Serializable {
+public class Tarea implements tieneLista<Persona>, tieneClave<String>, Serializable, InterrogaModeloTarea {
     String titulo;
     String descripcion;
     List<Persona> listaPersonasAsignadas;
@@ -181,4 +181,20 @@ public class Tarea implements tieneLista<Persona>, tieneClave<String>, Serializa
         return listaPersonasAsignadas;
     }
 
+    public Facturacion getFacturacion() {
+        return facturacion;
+    }
+
+    @Override
+    public List<Persona> getPersonasAsignadas() {
+        return listaPersonasAsignadas;
+    }
+
+    @Override
+    public float getCosteFinal() {
+        if (facturacion != null)
+            return facturacion.calcularCoste(this);
+        else
+            return this.coste;
+    }
 }

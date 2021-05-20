@@ -31,7 +31,7 @@ public class Persona implements tieneClave<String>, tieneLista<Tarea>, Serializa
 
     @Override
     public String toString() {
-        return " - " + nombre + ", correo : " + correoElectronico;
+        return nombre + ", correo : " + correoElectronico;
     }
 
     @Override
@@ -50,6 +50,10 @@ public class Persona implements tieneClave<String>, tieneLista<Tarea>, Serializa
     @Override
     public List<Tarea> getLista() {
         return listaTareasResponsable;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 }
 

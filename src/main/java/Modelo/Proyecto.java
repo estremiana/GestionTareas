@@ -12,7 +12,7 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 
-public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo{
+public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo, InterrogaModelo{
     List<Tarea> tareas;
     List<Persona> personas;
     String nombreProyecto;
@@ -26,7 +26,10 @@ public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo
         this.tareas = new ArrayList<>();
     }
 
-    public Proyecto() {}
+    public Proyecto() {
+        this.personas = new ArrayList<>();
+        this.tareas = new ArrayList<>();
+    }
 
     public void darDeAltaTrabajador (String nombre, String correo) {
         Persona persona = new Persona(nombre, correo);
@@ -142,6 +145,27 @@ public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo
     public List<Tarea> getTareas() {
         return tareas;
     }
+
+    @Override
+    public String[] getTiposResultado() {
+        return MenuResultado.getTipos();
+    }
+
+    @Override
+    public Tarea identificarTarea(String titulo) {
+        return identificar.tarea(titulo, tareas);
+    }
+
+    @Override
+    public String[] getTiposPrioridad() {
+        return MenuPrioridad.getTipos();
+    }
+
+    @Override
+    public List<Persona> getPersonas() {
+        return personas;
+    }
+
     public String getNombreProyecto() {return nombreProyecto;}
 
 
@@ -166,7 +190,29 @@ public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo
         }
     }
 
+    @Override
+    public void setNombreProyecto(String nombreProyecto) {
+        this.nombreProyecto = nombreProyecto;
+        vista.cargaCorrecta();
+    }
+
+    @Override
+    public void darDeAltaTareaVacia() {
+        tareas.add(new Tarea());
+        vista.anyadirTareaVacia();
+    }
+
     public void setVista(InformaVista vista) {
         this.vista = vista;
     }
+
+    @Override
+    public String nombreProyecto() {
+        return nombreProyecto;
+    }
+
+    public void setTareas(List<Tarea> tareas) {
+        this.tareas = tareas;
+    }
+
 }

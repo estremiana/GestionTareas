@@ -16,4 +16,6 @@ public class Biblioteca extends Resultado {
 
     @Override
     public String tipo() {return "Biblioteca";}
+
+
 }

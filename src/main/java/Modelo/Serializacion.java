@@ -11,7 +11,7 @@ import java.io.ObjectInputStream;
 
 
 
-public class Serializacion implements CambioModelo {
+public class Serializacion {
     public Serializacion() { }
 
     private final GestionES entrada = new GestionES();
@@ -37,10 +37,5 @@ public class Serializacion implements CambioModelo {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    public void importarProyecto(String fichero) {
-
     }
 }
