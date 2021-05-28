@@ -21,6 +21,25 @@ public class Identificador implements Serializable {
         };
     }
 
+    public MenuPrioridad prioridad(String prioridad) {
+        return  switch (prioridad) {
+            case "Alta" -> MenuPrioridad.ALTA;
+            case "Media" -> MenuPrioridad.MEDIA;
+            case "Baja" -> MenuPrioridad.BAJA;
+            default -> null;
+        };
+    }
+
+    public Resultado resultado (String resultado) {
+        return switch (resultado) {
+            case "Biblioteca" -> new Biblioteca();
+            case "Documentacion" -> new Documentacion();
+            case "Pagina Web" -> new PaginaWeb();
+            case "Programa" -> new Programa();
+            default -> null;
+        };
+    }
+
     public Resultado resultado(MenuResultado tipo) {
         return switch (tipo) {
             case BIBLIOTECA -> new Biblioteca();

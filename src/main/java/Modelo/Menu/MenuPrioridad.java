@@ -21,7 +21,10 @@ public enum MenuPrioridad {
     }
 
     public static String getTipo (MenuPrioridad opcion) {
-        return opcion.tipo;
+        if (opcion != null)
+            return opcion.tipo;
+        else
+            return "";
     }
 
     public static String getMenu() {

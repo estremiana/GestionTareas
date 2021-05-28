@@ -2,9 +2,11 @@ package Modelo;
 
 import Modelo.Excepciones.PersonaNoPerteneceException;
 import Modelo.Excepciones.PersonaYaPerteneceException;
+import Modelo.Interfaces.CambioModeloProyecto;
+import Modelo.Interfaces.InterrogaModelo;
 import Modelo.Menu.MenuPrioridad;
 import Modelo.Menu.MenuResultado;
-import Modelo.Resultado.Resultado;
+import Modelo.Resultado.*;
 import Modelo.Interfaces.tieneLista;
 import Vista.InformaVista;
 
@@ -12,7 +14,7 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 
-public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo, InterrogaModelo{
+public class Proyecto implements tieneLista<Persona>, Serializable, CambioModeloProyecto, InterrogaModelo {
     List<Tarea> tareas;
     List<Persona> personas;
     String nombreProyecto;
@@ -25,6 +27,7 @@ public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo
         this.personas = new ArrayList<>();
         this.tareas = new ArrayList<>();
     }
+
 
     public Proyecto() {
         this.personas = new ArrayList<>();
@@ -40,7 +43,7 @@ public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo
         }
     }
 
-    public void darDeAltaTarea (String titulo, String descripcion, int intPrioridad, MenuResultado tipo, List<String> etiquetas) {
+    public void darDeAltaTarea (String titulo, String descripcion, int intPrioridad, MenuResultado tipo, String etiquetas) {
         MenuPrioridad prioridad = MenuPrioridad.getOpcion(intPrioridad);
         Resultado resultado = identificar.resultado(tipo);
         Tarea nuevaTarea = new Tarea(titulo, descripcion, prioridad, resultado, etiquetas);
@@ -124,9 +127,14 @@ public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo
 
 
     public void anadirTrabajador(Persona persona) throws PersonaYaPerteneceException {
-        if (UtilidadesParaListas.sePuedeInsertar(persona, this))
+        if (persona.getNombre().equals(""))
+            throw new IllegalArgumentException("El nombre no puede estar vacío");
+        else if(persona.getClave().equals(""))
+            throw new IllegalArgumentException("El correo no puede estar vacío");
+        else if (UtilidadesParaListas.sePuedeInsertar(persona, this))
             this.personas.add(persona);
-        else throw new PersonaYaPerteneceException(persona);
+        else
+            throw new PersonaYaPerteneceException(persona);
     }
 
     public void anadirCosteATarea(String tituloTarea, float coste) {
@@ -166,6 +174,30 @@ public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo
         return personas;
     }
 
+    @Override
+    public String[] getTiposFacturacion() {
+        return new String[]{"Consumo Interno", "Descuento", "Urgente"};
+    }
+
+    @Override
+    public List<String> getTitulosTareas() {
+        List<String> nombres = new ArrayList<>();
+        for (Tarea tarea : tareas) {
+            nombres.add(tarea.getTitulo());
+        }
+        return nombres;
+    }
+
+    @Override
+    public Persona identificarPersona(String correo) {
+        try {
+            return identificar.persona(correo, personas);
+        } catch (PersonaNoPerteneceException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public String getNombreProyecto() {return nombreProyecto;}
 
 
@@ -176,30 +208,77 @@ public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo
 
     @Override
     public void importarProyecto(String fichero) {
-        try (FileInputStream fis = new FileInputStream(fichero)) {
-            try (ObjectInputStream ois = new ObjectInputStream(fis)){
-                Proyecto este = (Proyecto)ois.readObject();
-                this.tareas = este.tareas;
-                this.nombreProyecto = este.nombreProyecto;
-                this.personas = este.personas;
-                vista.cargaCorrecta();
-            }
-        } catch (IOException | ClassNotFoundException | NullPointerException e) {
-            e.printStackTrace();
-            vista.cargaFallida();
+        Proyecto proyecto = Serializacion.cargarDatosDeFichero(fichero);
+        if (proyecto == null)
+            vista.importacionFallida();
+        else {
+            this.tareas = proyecto.tareas;
+            this.nombreProyecto = proyecto.nombreProyecto;
+            this.personas = proyecto.personas;
+            vista.importacionCorrecta();
         }
     }
 
     @Override
-    public void setNombreProyecto(String nombreProyecto) {
+    public void exportarProyecto(String fichero) {
+        if (Serializacion.guardarDatosAFichero(this, fichero))
+            vista.exportacionCorrecta();
+        else
+            vista.exportacionFallida();
+
+    }
+
+    public void setNombre(String nombreProyecto) {
         this.nombreProyecto = nombreProyecto;
-        vista.cargaCorrecta();
+
     }
 
     @Override
-    public void darDeAltaTareaVacia() {
-        tareas.add(new Tarea());
-        vista.anyadirTareaVacia();
+    public void setNombreProyecto(String nombreProyecto) {
+        if (nombreProyecto.equals(""))
+            vista.errorNombreProyecto();
+        else {
+            setNombre(nombreProyecto);
+            vista.importacionCorrecta();
+        }
+    }
+
+    @Override
+    public void darDeAltaTarea(String titulo, String descripcion, String prioridad, String resultado, String coste) {
+        try {
+            tareaApta(titulo);
+            Tarea nuevaTarea = new Tarea(titulo, descripcion, identificar.prioridad(prioridad), identificar.resultado(resultado), new String() );
+            tareas.add(nuevaTarea);
+            nuevaTarea.setVista(vista);
+            nuevaTarea.setCoste(Float.parseFloat(coste));
+            vista.tareaAnyadida(titulo);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            vista.tareaNoAnyadida(e.getMessage());
+        }
+    }
+
+    @Override
+    public void nuevoTrabajador(String nombre, String correo) {
+        try {
+            Persona persona = new Persona(nombre, correo);
+            persona.setVista(vista);
+            anadirTrabajador(persona);
+            vista.personaAnyadida(persona);
+        } catch (PersonaYaPerteneceException | IllegalArgumentException e) {
+            e.printStackTrace();
+            vista.errorAlGuardar(e.getMessage());
+        }
+    }
+
+    private void tareaApta(String tituloTarea)
+    throws IllegalArgumentException{
+        if (tituloTarea.equals("")) {
+            throw new IllegalArgumentException("El titulo de la tarea no puede estar vacío");
+        }
+        for (Tarea tarea : tareas)
+            if (tarea.getTitulo().equals(tituloTarea))
+                throw new IllegalArgumentException("Ya hay una tarea con este nombre");
     }
 
     public void setVista(InformaVista vista) {
@@ -215,4 +294,7 @@ public class Proyecto implements tieneLista<Persona>, Serializable, CambioModelo
         this.tareas = tareas;
     }
 
+    public void setPersonas(List<Persona> personas) {
+        this.personas = personas;
+    }
 }

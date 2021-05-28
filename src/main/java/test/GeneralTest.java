@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class GeneralTest {
     public Proyecto proyectoPrueba;
     public Tarea tareaPrueba, tareaPruebaSinGente;
-    public List<String> etiquetas = new ArrayList<>();
+    public String etiquetas;
     public Persona dani = new Persona("Dani", "dani@gmail.com");
     public Persona oscar = new Persona("Oscar", "oscar@gmail.com");
     public Persona pablo = new Persona("Pablo", "pablo@gmail.com");
@@ -25,7 +25,7 @@ public abstract class GeneralTest {
     @BeforeEach
     void setUp() {
         proyectoPrueba = new Proyecto("Prueba");
-        etiquetas.add("prueba");
+        etiquetas = ("prueba");
         tareaPrueba = new Tarea("prueba", "desc",MenuPrioridad.ALTA, new Biblioteca(), etiquetas);
         tareaPrueba.setCoste(100);
         tareaPrueba.getListaPersonasAsignadas().add(dani);

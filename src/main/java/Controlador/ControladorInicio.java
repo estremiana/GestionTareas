@@ -7,5 +7,10 @@ public interface ControladorInicio {
 
     void guardarCambiosTarea();
 
-    void tareaSeleccionada();
+
+    void guardarCambiosPersona();
+
+    void nuevaPersona();
+
+    void exportar();
 }

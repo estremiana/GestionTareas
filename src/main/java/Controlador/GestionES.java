@@ -57,15 +57,9 @@ public class GestionES {
         return lista;
     }
 
-    public List<String> etiquetasTarea() {
-        System.out.println("Introduce las etiquetas de la tarea (presiona enter para finalizar):");
-        List<String> lista = new ArrayList<>();
-        String linea = teclado.nextLine();
-        while (linea.length() != 0) {
-            lista.add(linea);
-            linea = teclado.nextLine();
-        }
-        return lista;
+    public String etiquetasTarea() {
+        System.out.println("Introduce las etiquetas de la tarea:");
+        return teclado.nextLine();
     }
 
     public int resultado() {

@@ -18,13 +18,12 @@ public class Interfaz {
     GestionES salida = new GestionES();
     Proyecto proyecto;
     Identificador identificador = new Identificador();
-    Serializacion serializacion = new Serializacion();
 
     public void inicio () {
         MenuInicio opcion = MenuInicio.getOpcion(entrada.indiceInicio());
         switch (opcion) {
             case CARGAR_PROYECTO -> {
-                proyecto = serializacion.cargarDatosDeFichero();
+                proyecto = Serializacion.cargarDatosDeFichero(entrada.nombreArchivo());
                 if (proyecto != null){
                     salida.cargaCorrecta(proyecto);
                     herramienta();
@@ -52,7 +51,7 @@ public class Interfaz {
             case ANADIR_RESPONSABLE_A_TAREA -> proyecto.asignarResponsableATarea(entrada.tituloTarea(), entrada.correoPersonaResponsableTarea());
             case ELIMINAR_PERSONA_TAREA -> proyecto.eliminarPersonaDeTarea(entrada.tituloTarea(), entrada.correoTrabajador());
             case MARCAR_TAREA_FINALIZADA -> proyecto.marcarTareaComoFinalizada(entrada.tituloTarea());
-            case GUARDAR_DATOS_A_ARCHIVO -> serializacion.guardarDatosAFichero(proyecto);
+            case GUARDAR_DATOS_A_ARCHIVO -> Serializacion.guardarDatosAFichero(proyecto, entrada.nombreArchivo());
             case ANADIR_FACTURACION -> {
                 try {
                     Tarea tarea = identificador.tarea(entrada.tituloTarea(), proyecto.getTareas());

@@ -1,4 +1,7 @@
-package Modelo;
+package Modelo.Interfaces;
+
+import Modelo.Persona;
+import Modelo.Tarea;
 
 import java.util.List;
 
@@ -12,4 +15,10 @@ public interface InterrogaModelo {
     String[] getTiposPrioridad();
 
     List<Persona> getPersonas();
+
+    String[] getTiposFacturacion();
+
+    List<String> getTitulosTareas();
+
+    Persona identificarPersona(String correo) ;
 }

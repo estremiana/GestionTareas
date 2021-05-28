@@ -16,9 +16,9 @@ public class UrgenteTest extends GeneralTest {
         tareaPruebaSinGente.setPrioridad(MenuPrioridad.BAJA);
         float costeFinal = prueba.calcularCoste(tareaPruebaSinGente);
 
-        imprimirResultadoYEsperado(costeFinal, 100);
+        imprimirResultadoYEsperado(costeFinal, 110);
 
-        assertEquals(costeFinal, 100);
+        assertEquals(costeFinal, 110);
     }
 
     @Test
@@ -28,9 +28,9 @@ public class UrgenteTest extends GeneralTest {
         tareaPruebaSinGente.setPrioridad(MenuPrioridad.MEDIA);
         float costeFinal = prueba.calcularCoste(tareaPruebaSinGente);
 
-        imprimirResultadoYEsperado(costeFinal, 110);
+        imprimirResultadoYEsperado(costeFinal, 120);
 
-        assertEquals(costeFinal, 110);
+        assertEquals(costeFinal, 120);
     }
 
     @Test
@@ -40,8 +40,8 @@ public class UrgenteTest extends GeneralTest {
         tareaPruebaSinGente.setPrioridad(MenuPrioridad.ALTA);
         float costeFinal = prueba.calcularCoste(tareaPruebaSinGente);
 
-        imprimirResultadoYEsperado(costeFinal, 120);
+        imprimirResultadoYEsperado(costeFinal, 130);
 
-        assertEquals(costeFinal, 120);
+        assertEquals(costeFinal, 130);
     }
 }

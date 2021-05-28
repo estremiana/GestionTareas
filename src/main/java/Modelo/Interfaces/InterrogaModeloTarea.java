@@ -1,7 +1,8 @@
-package Modelo;
+package Modelo.Interfaces;
 
 import Modelo.Facturacion.Facturacion;
 import Modelo.Menu.MenuPrioridad;
+import Modelo.Persona;
 import Modelo.Resultado.Resultado;
 
 import java.util.Date;
@@ -30,5 +31,9 @@ public interface InterrogaModeloTarea {
 
     List<Persona> getPersonasAsignadas();
 
-    float getCosteFinal();
+    float calcularCosteFinal();
+
+    CambioModeloTarea getTarea();
+
+    String getEtiquetas();
 }
